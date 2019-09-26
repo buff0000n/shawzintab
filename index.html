@@ -535,13 +535,23 @@
     //==============================================================
 
     function buildTabWithoutMeasures(song, title, author, secondsPerLine) {
+        var secondsPerLineInt = parseInt(secondsPerLine);
+
+        if (secondsPerLineInt <= 0) {
+            throw "Invalid seconds per line: \"" + secondsPerLine + "\"";
+        }
+
         // 16 ticks in a second
-        buildTab(song, title, author, parseInt(secondsPerLine) * 16);
+        buildTab(song, title, author, secondsPerLineInt * 16);
     }
 
     function buildTabWithMeasures(song, title, author, meter, tempo, measuresPerLine, leadInBeats) {
         // parse the tempo
         var tempoInt = parseInt(tempo);
+        if (tempoInt <= 0) {
+            throw "Invalid tempo: \"" + secondsPerLine + "\"";
+        }
+
         // 16 ticks in a second => ticks/minute * minutes/beat = ticks per beat
         var ticksPerBeat = (16*60) / tempoInt;
 
@@ -558,17 +568,31 @@
         // denominator = the beat value
         var beatValue = parseInt(match[2]);
 
+        if (beatsPerMeasure <= 0 || beatValue <= 0) {
+            throw "Invalid meter: \"" + meter + "\"";
+        }
+
         // assume the tempo is given in quarter notes, and adjust the ticks per beat according to the beat value
         // round to nearest integer
         ticksPerBeat = Math.round((ticksPerBeat * beatValue) / 4);
         // measure length is a multiple of the beat length
         var ticksPerMeasure = ticksPerBeat * beatsPerMeasure;
+
+        var measuresPerLineInt = parseInt(measuresPerLine);
+        if (measuresPerLineInt <= 0) {
+            throw "Invalid measures per line: \"" + measuresPerLineInt + "\"";
+        }
         // line length is a multiple of the measure length
-        var ticksPerLine = ticksPerMeasure * parseInt(measuresPerLine);
+        var ticksPerLine = ticksPerMeasure * measuresPerLineInt;
 
-        var leadInTicks = Math.round(parseFloat(leadInBeats) * ticksPerBeat);
+        var leadInBeatsFloat = parseFloat(leadInBeats);
+        if (leadInBeatsFloat < 0) {
+            throw "Invalid lead in beats: \"" + leadInBeats + "\"";
+        }
 
-        // glad that's out of the way
+        var leadInTicks = Math.round(leadInBeatsFloat * ticksPerBeat);
+
+        // glad that's all out of the way
         buildTab(song, title, author, ticksPerLine, ticksPerMeasure, ticksPerBeat, leadInTicks);
 
     }
@@ -591,39 +615,49 @@
 	}
 
     function buildTab(song, title, author, lineBreaks, measureBreaks=0, beatBreaks=0, leadIn=0) {
+        // get the tab container
         var tabArea = document.getElementById("tabArea")
 
+        // offset the song if lead-in was specified
+        // The Shawzin recorder always starts on the first note, even if that note isn't at the beginning of a measure
         if (leadIn > 0) {
             song = song.applyLeadIn(leadIn, measureBreaks);
         }
-
+        // split the song up into sub-songs by lines
         var lineSongs = song.split(lineBreaks);
 
+        // set a few constants for the image
+        // todo: pull these from CSS like I do with rngsim
         var sideMargin = 15;
         var topBottomMargin = 15;
-
         var headerHeight = 60;
-
         var pageWidth = 1000;
         var lineHeight = 60;
         var fontSize = 15;
-
         var lineSeparation = 60;
 
+        // these are calculated
         var pageHeight = headerHeight + (lineHeight * lineSongs.length) + (lineSeparation * (lineSongs.length - 1)) + (topBottomMargin * 2);
         var lineWidth = pageWidth - (sideMargin * 2);
 
+        // create a canvas element under the tab container with the dimensions we calculated
+        // if you configure something stupid like a thousand-line tab you're probably going to crash something.
         tabArea.innerHTML = `<canvas class="tabCanvas" height=` + pageHeight + ` width=` + pageWidth + ` onclick="convertToPng(this);"/>`;
 
+        // find the canvas element we just added
         var canvas = getFirstChild(tabArea, "tabCanvas");
-        // todo
+
+        // save the title to the canvas element for convertToPng() to pick up for a file name
 	    canvas.saveName = title;
 
+        // get the graphics context, this is what we'll do all our work in
         var context = canvas.getContext("2d");
 
+        // fill the whole canvas with a background color, otherwise it will be transparent
         context.fillStyle = "#FFFFFF";
         context.fillRect(0, 0, canvas.width, canvas.height);
 
+        // set the line color and width
         context.strokeStyle = "#000000";
         context.lineWidth = fontSize/10;
 
@@ -646,26 +680,32 @@
         // authorline
         context.fillText(author, pageWidth - sideMargin*5, topBottomMargin + headerHeight * 0.75);
 
-        // set up the text
+        // set up the rest of the text
         context.font = fontSize + "px Arial";
-        context.textAlign = "left";
+        context.textAlign = "center";
 
+        // iterate over the sub-songs
         for (var line = 0; line < lineSongs.length; line++) {
+            // calculate the box coordinates containing the line
             var x1 = sideMargin;
             var x2 = x1 + lineWidth;
             var y1 = topBottomMargin + headerHeight + ((lineHeight + lineSeparation) * line);
             var y2 = y1 + lineHeight;
 
+            // draw the song line
             buildSongLine(context, x1, y1, x2, y2, fontSize, lineSongs[line], lineBreaks, measureBreaks, beatBreaks)
         }
     }
 
     function buildSongLine(context, x1, y1, x2, y3, fontSize, lineSong, lineBreaks, measureBreaks, beatBreaks) {
+        // calculate the middle string y-position
         var y2 = (y1 + y3) / 2;
 
+        // we'll use this line width for pretty much everything
         context.lineWidth = fontSize / 10;
 
-        var labelWidth = fontSize * 3;
+        // width for the string labels on the left
+        var labelWidth = fontSize * 1.5
 
         // easier this way
         x1 += labelWidth;
@@ -676,18 +716,24 @@
         drawLine(context, x1, y3, x2, y3);
 
         // string line labels
-        placeText(context, fontSize, "1", x1-(labelWidth/2), y1);
-        placeText(context, fontSize, "2", x1-(labelWidth/2), y2);
-        placeText(context, fontSize, "3", x1-(labelWidth/2), y3);
+        placeText(context, fontSize, "1", x1-(fontSize*1), y1);
+        placeText(context, fontSize, "2", x1-(fontSize*1), y2);
+        placeText(context, fontSize, "3", x1-(fontSize*1), y3);
 
         if (measureBreaks != 0) {
+            // draw measure lines
             for (var i = 0; i <= lineBreaks; i+= measureBreaks) {
                 var x3 = x1 + (((x2 - x1) * i) / lineBreaks);
                 drawLine(context, x3, y1, x3, y3);
             }
+
+        } else {
+            // just put lines at the beginning and ending of each line
+            drawLine(context, x1, y1, x1, y3);
+            drawLine(context, x2, y1, x2, y3);
         }
 
-        // beat bars are too much clutter
+        // beat lines are too much clutter
         /*
         if (beatBreaks != 0) {
             context.lineWidth = fontSize / 20;
@@ -700,32 +746,46 @@
         }
         */
 
+        // clear space for all the notes first
         drawNotes(context, x1, y1, x2, y3, y2, fontSize, lineSong, lineBreaks, true);
+
+        // now draw the notes
         drawNotes(context, x1, y1, x2, y3, y2, fontSize, lineSong, lineBreaks, false);
     }
 
     function drawNotes(context, x1, y1, x2, y3, y2, fontSize, lineSong, lineBreaks, clear) {
         context.textAlign = "center";
 
+        // fill color depends on whether we're clearing or drawing
         if (clear) {
             context.fillStyle = "#FFFFFF";
         } else {
             context.fillStyle = "#000000";
         }
 
+        // iterate over the notes
         for (var i = 0; i < lineSong.notes.length; i++) {
             var note = lineSong.notes[i];
+            // use the notes time to calculate its x position in the line.  The time is assumed to
+            // start at zero at the beginning of the line
             var x3 = x1 + (((x2 - x1) * note.time) / lineBreaks);
+            // iterate over the note's strings
             // do multi-string notes actually happen?
             for (var j = 0; j < note.string.length; j++) {
                 var string = note.string.charAt(j);
+                // pick the y position for the correct string
                 var ty;
                 switch (string) {
                     case "1": ty = y1; break;
                     case "2": ty = y2; break;
                     case "3": ty = y3; break;
                 }
-                placeText(context, fontSize, (note.fret != "" ? note.fret : "0"), x3, ty, clear);
+
+                // if there's no frets then use "0"
+                var fret = (note.fret != "" ? note.fret : "0");
+
+                // clear space or draw the note
+                placeText(context, fontSize, fret, x3, ty, clear);
             }
         }
     }
@@ -738,9 +798,12 @@
         var h = fontSize;
 
         if (clear) {
+            // clear a rectangle around the text
             context.fillRect(x3-(w/2), ty-h, w, h*1.3);
         } else {
+            // draw the text
             context.fillText(text, x3, ty);
+            // if it's a multi-fret chord then underline it
             if (text.length > 1) {
                 context.lineWidth = fontSize / 20;
                 drawLine(context, x3-(w/2), ty+(h*0.3), x3+(w/2), ty+(h*0.3))
@@ -750,7 +813,10 @@
 
     function drawLine(context, x1, y1, x2, y2) {
         // why is this so annoying
-        context.beginPath(); context.moveTo(x1, y1); context.lineTo(x2, y2); context.stroke();
+        context.beginPath();
+        context.moveTo(x1, y1);
+        context.lineTo(x2, y2);
+        context.stroke();
     }
 
     function convertToPng(canvas) {
@@ -758,8 +824,13 @@
 
         // builds a huuuuge URL with the base-64 encoded PNG data embedded inside it
         var src = canvas.toDataURL();
-        // todo: this doesn't work
-        var fileName = canvas.saveName + ".png";
+        // get the song name that was saved to the canvas element
+        var name = canvas.saveName;
+        // use a default if no name was specified
+        if (!name || name == "") {
+            name = "song";
+        }
+        var fileName = name + ".png";
         // replace the canvas with an image
         // Ugh, the only way to give it a file name is to wrap it in a link element, and duplicate the entire src contents.
         canvas.parentElement.innerHTML = `
@@ -870,7 +941,7 @@
     }
 
     function windowOnError(msg, url, lineNo, columnNo, error) {
-        showErrors([msg]);
+        showErrors([msg.replace("Uncaught ", "")]);
         return false;
     }
 
@@ -1230,6 +1301,8 @@
                 <select id="meter" class="meter">
                     <option value="4/4">4/4</option>
                     <option value="3/4">3/4</option>
+                    <option value="2/4">2/4</option>
+                    <option value="5/4">5/4</option>
                 </select>
                 <span class="tooltiptextbottom">Tempo</span>
             </div>
@@ -1294,7 +1367,43 @@
         </div>
     </div>
     <div id="lotsOfWordsContainer" style="display: none;">
-        <div>Nothing here yet</div>
+        <div class="lotsOfWords">
+            <div>Nothing here yet</div>
+
+            <h1>Table of Contents</h1>
+            <ul id="TOC">
+                <li><a href="#ToDo">To Do</a></li>
+                <li><a href="#KnownIssues">Known Issues</a></li>
+            </ul>
+
+            <h1 id="ToDo">To Do</h1>
+            <ul>
+                <li>
+                    Documentation
+                </li>
+                <li>
+                    De-uglify
+                </li>
+                <li>
+                    Compress consequtive blank lines/measures
+                </li>
+                <li>
+                    Enforce the 1000-note limit
+                </li>
+            </ul>
+
+
+            <h1 id="KnownIssues">Known Issues</h1>
+            <ul>
+                <li>
+                    Pretty sure this doesn't work in Microsoft Edge. Don't use Edge.
+                </li>
+                <li>
+                    Sometimes the Generate Link pop-up doesn't disappear correctly on Chrome if you switch tabs at the
+                    wrong time.  Shrug Emoji.
+                </li>
+            </ul>
+        </div>
     </div>
 
     <div class="footerContainer">
@@ -1312,7 +1421,7 @@
             <a href="https://github.com/buff0000n/shawzintab/issues/1">Feedback</a>
         </div>
         <div>
-            v0.0.2: 2019-09-26
+            v0.0.3: 2019-09-26
         </div>
     </div>
 </div>
