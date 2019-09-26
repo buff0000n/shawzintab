@@ -382,6 +382,9 @@
 <body onload="initModel()">
 <script type="text/javascript" language="javascript">
 
+    // todo: make this configurable?
+    var stringThreeOnTop = true;
+
     // thanks to https://www.reddit.com/r/Warframe/comments/cxbxoc/shawzin_song_recording_syntax/
 
     var scale_map = new Map();
@@ -737,9 +740,9 @@
         drawLine(context, x1, y3, x2, y3);
 
         // string line labels
-        placeText(context, fontSize, "1", x1-(fontSize*1), y1);
+        placeText(context, fontSize, stringThreeOnTop ? "3" : "1", x1-(fontSize*1), y1);
         placeText(context, fontSize, "2", x1-(fontSize*1), y2);
-        placeText(context, fontSize, "3", x1-(fontSize*1), y3);
+        placeText(context, fontSize, stringThreeOnTop ? "1" : "3", x1-(fontSize*1), y3);
 
         if (measureBreaks != 0) {
             // draw measure lines
@@ -797,9 +800,9 @@
                 // pick the y position for the correct string
                 var ty;
                 switch (string) {
-                    case "1": ty = y1; break;
+                    case "1": ty = stringThreeOnTop ? y3 : y1; break;
                     case "2": ty = y2; break;
-                    case "3": ty = y3; break;
+                    case "3": ty = stringThreeOnTop ? y1 : y3; break;
                 }
 
                 // if there's no frets then use "0"
@@ -1313,7 +1316,7 @@
             <div class="tooltip">
                 <span class="label">Seconds per line:</span>
                 <input id="secondsPerLine" class="secondsPerLine" type="number" value="4"/>
-                <span class="tooltiptextbottom">How many seconds per line</span>
+                <span class="tooltiptextbottom">How many seconds on each line</span>
             </div>
         </div>
 
@@ -1326,7 +1329,7 @@
                     <option value="2/4">2/4</option>
                     <option value="5/4">5/4</option>
                 </select>
-                <span class="tooltiptextbottom">Tempo</span>
+                <span class="tooltiptextbottom">The meter of the song</span>
             </div>
         </div>
         <div class="util" id="tempoDiv">
@@ -1339,7 +1342,7 @@
                     <option value="80">80 bps</option>
                     <option value="60">60 bps</option>
                 </select>
-                <span class="tooltiptextbottom">Tempo</span>
+                <span class="tooltiptextbottom">The Tempo of the song</span>
             </div>
         </div>
         <div class="util" id="measuresPerLineDiv">
@@ -1499,7 +1502,7 @@
             <a href="https://github.com/buff0000n/shawzintab/issues/1">Feedback</a>
         </div>
         <div>
-            v0.0.4: 2019-09-26
+            v0.0.6: 2019-09-26
         </div>
         <div>Thanks:
             <div><a href="https://forums.warframe.com/profile/3060756-ps4poison___insect/">(PS4)Poison___Insect</a></div>
