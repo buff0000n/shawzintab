@@ -722,6 +722,9 @@
     }
 
     function buildSongLine(context, x1, y1, x2, y3, fontSize, lineSong, lineBreaks, measureBreaks, beatBreaks) {
+        // margin around the start/end bars and measure bars if present
+        var barMargin = fontSize;
+
         // calculate the middle string y-position
         var y2 = (y1 + y3) / 2;
 
@@ -751,10 +754,31 @@
                 drawLine(context, x3, y1, x3, y3);
             }
 
+            // split up the line by measures
+            var measureSongs = lineSong.split(measureBreaks);
+
+            // clear space for all the notes first
+            function drawMeasure(clear) {
+                for (var m = 0; m < measureSongs.length; m++) {
+                    var measureSong = measureSongs[m];
+                    var x1b = x1 + (((x2 - x1) * (m * measureBreaks)) / lineBreaks);
+                    var x2b = x1 + (((x2 - x1) * ((m + 1) * measureBreaks)) / lineBreaks);
+                    drawNotes(context, x1b+barMargin, y1, x2b-barMargin, y3, y2, fontSize, measureSong, measureBreaks, clear);
+                }
+            }
+            drawMeasure(true);
+            drawMeasure(false);
+
         } else {
             // just put lines at the beginning and ending of each line
             drawLine(context, x1, y1, x1, y3);
             drawLine(context, x2, y1, x2, y3);
+
+            // clear space for all the notes first
+            drawNotes(context, x1+barMargin, y1, x2-barMargin, y3, y2, fontSize, lineSong, lineBreaks-(barMargin*2), true);
+
+            // now draw the notes
+            drawNotes(context, x1+barMargin, y1, x2-barMargin, y3, y2, fontSize, lineSong, lineBreaks-(barMargin*2), false);
         }
 
         // beat lines are too much clutter
@@ -770,14 +794,9 @@
         }
         */
 
-        // clear space for all the notes first
-        drawNotes(context, x1, y1, x2, y3, y2, fontSize, lineSong, lineBreaks, true);
-
-        // now draw the notes
-        drawNotes(context, x1, y1, x2, y3, y2, fontSize, lineSong, lineBreaks, false);
     }
 
-    function drawNotes(context, x1, y1, x2, y3, y2, fontSize, lineSong, lineBreaks, clear) {
+    function drawNotes(context, x1, y1, x2, y3, y2, fontSize, drawSong, intervalLength, clear) {
         context.textAlign = "center";
 
         // fill color depends on whether we're clearing or drawing
@@ -788,11 +807,11 @@
         }
 
         // iterate over the notes
-        for (var i = 0; i < lineSong.notes.length; i++) {
-            var note = lineSong.notes[i];
+        for (var n = 0; n < drawSong.notes.length; n++) {
+            var note = drawSong.notes[n];
             // use the notes time to calculate its x position in the line.  The time is assumed to
             // start at zero at the beginning of the line
-            var x3 = x1 + (((x2 - x1) * note.time) / lineBreaks);
+            var x3 = x1 + (((x2 - x1) * note.time) / intervalLength);
             // iterate over the note's strings
             // do multi-string notes actually happen?
             for (var j = 0; j < note.string.length; j++) {
@@ -1480,6 +1499,10 @@
                 <li>
                     Enforce the 1000-note limit
                 </li>
+                <li>
+                    Re-generate the tab automatically after making a change,
+                    without having to click the "Generate Tab" button
+                </li>
             </ul>
 
 
@@ -1502,7 +1525,7 @@
             <a href="https://github.com/buff0000n/shawzintab/issues/1">Feedback</a>
         </div>
         <div>
-            v0.0.6: 2019-09-26
+            v0.0.7: 2019-09-26
         </div>
         <div>Thanks:
             <div><a href="https://forums.warframe.com/profile/3060756-ps4poison___insect/">(PS4)Poison___Insect</a></div>
