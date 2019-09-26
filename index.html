@@ -775,10 +775,10 @@
             drawLine(context, x2, y1, x2, y3);
 
             // clear space for all the notes first
-            drawNotes(context, x1+barMargin, y1, x2-barMargin, y3, y2, fontSize, lineSong, lineBreaks-(barMargin*2), true);
+            drawNotes(context, x1+barMargin, y1, x2-barMargin, y3, y2, fontSize, lineSong, lineBreaks, true);
 
             // now draw the notes
-            drawNotes(context, x1+barMargin, y1, x2-barMargin, y3, y2, fontSize, lineSong, lineBreaks-(barMargin*2), false);
+            drawNotes(context, x1+barMargin, y1, x2-barMargin, y3, y2, fontSize, lineSong, lineBreaks, false);
         }
 
         // beat lines are too much clutter
@@ -811,7 +811,8 @@
             var note = drawSong.notes[n];
             // use the notes time to calculate its x position in the line.  The time is assumed to
             // start at zero at the beginning of the line
-            var x3 = x1 + (((x2 - x1) * note.time) / intervalLength);
+            // substract 1 from interval length to let barMargin take care of separating lines/measures
+            var x3 = x1 + (((x2 - x1) * note.time) / (intervalLength - 1));
             // iterate over the note's strings
             // do multi-string notes actually happen?
             for (var j = 0; j < note.string.length; j++) {
@@ -1497,7 +1498,7 @@
                     Compress consequtive blank lines/measures
                 </li>
                 <li>
-                    Enforce the 1000-note limit
+                    Enforce the 1000-note, 256-second limit
                 </li>
                 <li>
                     Re-generate the tab automatically after making a change,
@@ -1525,7 +1526,7 @@
             <a href="https://github.com/buff0000n/shawzintab/issues/1">Feedback</a>
         </div>
         <div>
-            v0.0.7: 2019-09-26
+            v1.0.0: 2019-09-26
         </div>
         <div>Thanks:
             <div><a href="https://forums.warframe.com/profile/3060756-ps4poison___insect/">(PS4)Poison___Insect</a></div>
