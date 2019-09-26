@@ -534,12 +534,12 @@
     // UI Builders
     //==============================================================
 
-    function buildTabWithoutMeasures(song, title, secondsPerLine) {
+    function buildTabWithoutMeasures(song, title, author, secondsPerLine) {
         // 16 ticks in a second
-        buildTab(song, parseInt(secondsPerLine) * 16);
+        buildTab(song, title, author, parseInt(secondsPerLine) * 16);
     }
 
-    function buildTabWithMeasures(song, title, meter, tempo, measuresPerLine, leadInBeats) {
+    function buildTabWithMeasures(song, title, author, meter, tempo, measuresPerLine, leadInBeats) {
         // parse the tempo
         var tempoInt = parseInt(tempo);
         // 16 ticks in a second => ticks/minute * minutes/beat = ticks per beat
@@ -566,10 +566,10 @@
         // line length is a multiple of the measure length
         var ticksPerLine = ticksPerMeasure * parseInt(measuresPerLine);
 
-        var leadInTicks = Math.round(parseInt(leadInBeats) * ticksPerBeat);
+        var leadInTicks = Math.round(parseFloat(leadInBeats) * ticksPerBeat);
 
         // glad that's out of the way
-        buildTab(song, title, ticksPerLine, ticksPerMeasure, ticksPerBeat, leadInTicks);
+        buildTab(song, title, author, ticksPerLine, ticksPerMeasure, ticksPerBeat, leadInTicks);
 
     }
 
@@ -581,7 +581,16 @@
         return i;
     }
 
-    function buildTab(song, title, lineBreaks, measureBreaks=0, beatBreaks=0, leadIn=0) {
+	function parseFloat(intString) {
+	    // read a decimal from a string
+	    var i = Number.parseFloat(intString);
+	    if (Number.isNaN(i) || i < 0) {
+            throw "Invalid number: \"" + s + "\"";
+	    }
+	    return i;
+	}
+
+    function buildTab(song, title, author, lineBreaks, measureBreaks=0, beatBreaks=0, leadIn=0) {
         var tabArea = document.getElementById("tabArea")
 
         if (leadIn > 0) {
@@ -631,6 +640,11 @@
         // scale line
         context.fillText("Scale: " + song.scale, sideMargin*5, topBottomMargin + headerHeight * 0.75);
 
+        // set up the author line
+        context.font = (fontSize * 1) + "px Arial";
+        context.textAlign = "right";
+        // authorline
+        context.fillText(author, pageWidth - sideMargin*5, topBottomMargin + headerHeight * 0.75);
 
         // set up the text
         context.font = fontSize + "px Arial";
@@ -711,7 +725,7 @@
                     case "2": ty = y2; break;
                     case "3": ty = y3; break;
                 }
-                placeText(context, fontSize, note.fret, x3, ty, clear);
+                placeText(context, fontSize, (note.fret != "" ? note.fret : "0"), x3, ty, clear);
             }
         }
     }
@@ -755,35 +769,6 @@
         `;
     }
 
-/*
-    function buildTab(song, lineBreaks, measureBreaks=0, beatBreaks=0, leadIn=0) {
-        var tabArea = document.getElementById("tabArea")
-
-        if (leadIn > 0) {
-            song = song.applyLeadIn(leadIn, measureBreaks);
-        }
-
-        var lineSongs = song.split(lineBreaks);
-
-        var html = "";
-        for (var i = 0; i < lineSongs.length; i++) {
-            html += buildSongLine(lineSongs[i], measureBreaks, beatBreaks)
-        }
-
-        tabArea.innerHTML = html;
-    }
-
-    function buildSongLine(lineSong, measureBreaks, beatBreaks) {
-        html = "<div>";
-        for (var i = 0; i < lineSong.notes.length; i++) {
-            var note = lineSong.notes[i];
-            html += "<span>" + note.desc() + "</span>";
-        }
-        html += "</div>";
-        
-        return html;
-    }
-*/
 
     //==============================================================
     // Utility DOM functions
@@ -912,15 +897,20 @@
 
     function reinitModel(url) {
         // on page load, see if there's a "song=..." query string
-        var songString = getQueryParam(url, "song");
+        var songString = getQueryParam(url, "song", false);
         if (songString) {
             // if there is, then initialize our song
-            setSong(songString);
+            setSong(urlDecodeString(songString, false));
         }
 
         var title = getQueryParam(url, "title");
         if (title) {
             document.getElementById("songTitle").value = urlDecodeString(title);
+        }
+
+        var author = getQueryParam(url, "author");
+        if (author) {
+            document.getElementById("author").value = urlDecodeString(author);
         }
 
         var metered = getQueryParam(url, "metered");
@@ -965,7 +955,9 @@
 
         var title = document.getElementById("songTitle").value;
 
-        var query = "?title=" + urlEncodeString(title);
+        var author = document.getElementById("author").value;
+
+        var query = "?title=" + urlEncodeString(title) + "&author=" + urlEncodeString(author);
 
         if (document.getElementById("metered").checked) {
             query += "&metered=y"
@@ -978,7 +970,7 @@
                 + "&secondsPerLine=" + document.getElementById("secondsPerLine").value;
         }
 
-        query += "&song=" + songString
+        query += "&song=" + urlEncodeString(songString, false)
 
         // build a full URL using the current URL
         var url = buildQueryUrl(query);
@@ -994,26 +986,25 @@
         textField.select();
     }
 
-	function urlEncodeString(string) {
+	function urlEncodeString(string, plusIsSpace=true) {
 	    // urlencode some things
-	    string = string.replace(/%/g, "%25");
-	    string = string.replace(/&/g, "%26");
-	    string = string.replace(/\?/g, "%3F");
-	    string = string.replace(/\+/g, "%2B");
+	    string = encodeURIComponent(string);
 
-	    // replace whitespace with '+'
-	    return string.replace(/ /g, "+");
+	    if (plusIsSpace) {
+            // replace whitespace with '+'
+            string = string.replace(/\s/g, "+");
+        }
+        return string;
 	}
 
-	function urlDecodeString(string) {
-	    // un-replace '+' with a space
-	    string = string.replace(/\+/g, " ");
+	function urlDecodeString(string, plusIsSpace=true) {
+	    if (plusIsSpace) {
+            // un-replace '+' with a space
+            string = string.replace(/\+/g, " ");
+        }
 
 	    // urldecode some things
-	    string = string.replace(/%25/g, "%");
-	    string = string.replace(/%26/g, "&");
-	    string = string.replace(/%3[Ff]/g, "?");
-	    string = string.replace(/%2[Bb]/g, "+");
+	    string = decodeURIComponent(string);
 
 	    // no funny business
 	    string = string.replace(/[<>\"]/g, "");
@@ -1065,7 +1056,7 @@
         return document.getElementById('songCode').value.trim();
     }
 
-    function getQueryParam(url, name) {
+    function getQueryParam(url, name, plusIsSpace=true) {
         // from https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
         // weird that there's no built in function for this
         name = name.replace(/[\[\]]/g, '\\$&');
@@ -1077,7 +1068,14 @@
         if (!results[2]) {
             return '';
         }
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+
+        var res = results[2];
+
+        if (plusIsSpace) {
+            res = res.replace(/\+/g, ' ')
+        }
+
+        return decodeURIComponent(res);
     }
 
     //==============================================================
@@ -1098,31 +1096,35 @@
     function startRun() {
         // disable/enable everything accordingly
         document.getElementById('generateButton').disabled = true;
-        // document.getElementById('stopButton').disabled = false;
 
         // update state
         stopped = false;
 
-        // parse the UI into a model
-        var songString = getSong();
+        try {
+            // parse the UI into a model
+            var songString = getSong();
 
-        var song = new Song().fromString(songString);
+            var song = new Song().fromString(songString);
 
-        if (document.getElementById("metered").checked) {
-            buildTabWithMeasures(song,
-                document.getElementById("songTitle").value,
-                document.getElementById("meter").value,
-                document.getElementById("tempo").value,
-                document.getElementById("measuresPerLine").value,
-                document.getElementById("leadInBeats").value);
-        } else {
-            buildTabWithoutMeasures(song,
-                document.getElementById("songTitle").value,
-                document.getElementById("secondsPerLine").value);
+            if (document.getElementById("metered").checked) {
+                buildTabWithMeasures(song,
+                    document.getElementById("songTitle").value,
+                    document.getElementById("author").value,
+                    document.getElementById("meter").value,
+                    document.getElementById("tempo").value,
+                    document.getElementById("measuresPerLine").value,
+                    document.getElementById("leadInBeats").value);
+            } else {
+                buildTabWithoutMeasures(song,
+                    document.getElementById("songTitle").value,
+                    document.getElementById("author").value,
+                    document.getElementById("secondsPerLine").value);
+            }
+            clearErrors();
+
+        } finally {
+            stopRun()
         }
-        clearErrors();
-
-        stopRun()
     }
 
     function stopRun() {
@@ -1186,7 +1188,16 @@
             <div class="tooltip">
                 <span class="label">Song Title:</span>
                 <input id="songTitle" class="songTitle" type="text" size="50"/>
-                <span class="tooltiptextbottom">Give yout song a name</span>
+                <span class="tooltiptextbottom">Give your song a name</span>
+            </div>
+        </div>
+    </div>
+    <div class="utilGroup">
+        <div class="util" id="authorDiv">
+            <div class="tooltip">
+                <span class="label">Author:</span>
+                <input id="author" class="author" type="text" size="50"/>
+                <span class="tooltiptextbottom">Who is the author?  Be honest :)</span>
             </div>
         </div>
     </div>
@@ -1229,6 +1240,9 @@
                 <select id="tempo" class="tempo">
                     <option value="120">120 bps</option>
                     <option value="160">160 bps</option>
+                    <option value="240">240 bps</option>
+                    <option value="80">80 bps</option>
+                    <option value="60">60 bps</option>
                 </select>
                 <span class="tooltiptextbottom">Tempo</span>
             </div>
@@ -1291,11 +1305,14 @@
             Buff00n
         </div>
         <div>
+            Thanks to (PS4)Poison___Insect
+        </div>
+        <div>
             <a href="https://github.com/buff0000n/shawzintab">Source</a>
             <a href="https://github.com/buff0000n/shawzintab/issues/1">Feedback</a>
         </div>
         <div>
-            v0.0.1: 2019-09-26
+            v0.0.2: 2019-09-26
         </div>
     </div>
 </div>
