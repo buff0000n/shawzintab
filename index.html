@@ -655,13 +655,14 @@
         var sideMargin = 15;
         var topBottomMargin = 15;
         var headerHeight = 60;
+        var footerHeight = 30;
         var pageWidth = 1000;
         var lineHeight = 60;
         var fontSize = 15;
         var lineSeparation = 60;
 
         // these are calculated
-        var pageHeight = headerHeight + (lineHeight * lineSongs.length) + (lineSeparation * (lineSongs.length - 1)) + (topBottomMargin * 2);
+        var pageHeight = headerHeight + footerHeight + (lineHeight * lineSongs.length) + (lineSeparation * (lineSongs.length - 1)) + (topBottomMargin * 2);
         var lineWidth = pageWidth - (sideMargin * 2);
 
         // create a canvas element under the tab container with the dimensions we calculated
@@ -703,6 +704,12 @@
         context.textAlign = "right";
         // authorline
         context.fillText(author, pageWidth - sideMargin*5, topBottomMargin + headerHeight * 0.75);
+
+        // set up the footer line
+        context.font = (fontSize * 1) + "px Arial";
+        context.textAlign = "right";
+        // footer line
+        context.fillText("https://buff0000n.github.io/shawzintab/", pageWidth - sideMargin, pageHeight - (topBottomMargin + footerHeight * 0.25));
 
         // set up the rest of the text
         context.font = fontSize + "px Arial";
@@ -1526,7 +1533,7 @@
             <a href="https://github.com/buff0000n/shawzintab/issues/1">Feedback</a>
         </div>
         <div>
-            v1.0.0: 2019-09-26
+            v1.0.1: 2019-09-26
         </div>
         <div>Thanks:
             <div><a href="https://forums.warframe.com/profile/3060756-ps4poison___insect/">(PS4)Poison___Insect</a></div>
