@@ -559,14 +559,15 @@
     //==============================================================
 
     function buildTabWithoutMeasures(song, title, author, secondsPerLine) {
-        var secondsPerLineInt = parseInt(secondsPerLine);
+        var secondsPerLineFloat = parseFloat(secondsPerLine);
 
-        if (secondsPerLineInt <= 0) {
+        if (secondsPerLineFloat <= 0) {
             throw "Invalid seconds per line: \"" + secondsPerLine + "\"";
         }
 
         // 16 ticks in a second
-        buildTab(song, title, author, secondsPerLineInt * 16);
+        // round to the nearest tick
+        buildTab(song, title, author, Math.round(secondsPerLineFloat * 16));
     }
 
     function buildTabWithMeasures(song, title, author, meter, tempo, measuresPerLine, leadInBeats) {
@@ -596,9 +597,10 @@
             throw "Invalid meter: \"" + meter + "\"";
         }
 
-        // assume the tempo is given in quarter notes, and adjust the ticks per beat according to the beat value
-        // round to nearest integer
-        ticksPerBeat = Math.round((ticksPerBeat * beatValue) / 4);
+        // beatValue doesn't actually matter for our purposes.  We don't have to worry about drawing eighth notes
+        // versus quarter notes.  We have a tempo in beats per second, and all we care about is how many beats are
+        // in each measure
+
         // measure length is a multiple of the beat length
         var ticksPerMeasure = ticksPerBeat * beatsPerMeasure;
 
@@ -1349,13 +1351,16 @@
 
         <div class="util" id="meterDiv">
             <div class="tooltip">
-                <span class="label">Meter:</span>
+                <span class="label">Time Signature:</span>
+                <input id="meter" class="meter" type="text" value="4/4"/>
+                <!--
                 <select id="meter" class="meter">
                     <option value="4/4">4/4</option>
                     <option value="3/4">3/4</option>
                     <option value="2/4">2/4</option>
                     <option value="5/4">5/4</option>
                 </select>
+                -->
                 <span class="tooltiptextbottom">The meter of the song</span>
             </div>
         </div>
@@ -1488,13 +1493,60 @@
 
             <h2 id="tocNonMetered">Non-metered</h2>
             <p>
-                Nothing here yet
+                Your options are limited for general, non-metered Shawzin songs.  You can basically control how
+                much time each line covers.
             </p>
+            <ul>
+                <li><strong>Seconds per line</strong>: How many seconds of the song to put on each line of tablature.
+                    Increasing this will compress the notes, decreasing it will spread them out.  Decimal values are allowed.
+                </li>
+            </ul>
 
             <h2 id="tocMetered">Metered</h2>
             <p>
-                Nothing here yet
+                The metering options are geared toward someone familiar with the song and how music timing works.
             </p>
+            <ul>
+                <li><strong>Time Signature</strong>: The time signature specifies how many beats are in each measure.
+                    Its format is "<strong>number of beats</strong>/<strong>beat size</strong>"
+                    <ul>
+                        <li><strong>number of beats</strong>: Along with <strong>Tempo</strong>, this determines how
+                            much time is in each measure</li>
+                        <li><strong>beat size</strong>: For our purposes, this doesn't actually matter.  There is
+                            no difference between note divisions in tablature notation.  You should leave it at /4 /8 for
+                            consistency.</li>
+                    </ul>
+                </li>
+                <li><strong>Tempo</strong>: This controls how many beats are in one minute.  Together with the <strong>number
+                    of beats</strong> in your time signature, this determines how long each measure is.
+                    <p>
+                        If you recorded your song using the in-game metronome then you probably want to use <strong>120</strong>
+                        as your Tempo.  However, if it's a really slow song then you might want to try <strong>60</strong>.
+                    </p>
+                    <p>
+                        There are a limited number of tempos available because of how the Shawzin recorder timing actually
+                        works.  Each second is divided into 32 time increments, and each recorded note is assigned to the
+                        nearest increment.  In this system there are only a few tempos that will give you a whole number
+                        of increments per beat, which is further limited by possibly needing a whole number of increments
+                        for eighth notes, sixteenth notes, and/or triplet notes.
+                    </p>
+                </li>
+                <li><strong>Measures per line</strong>: This simply controls how many measures are put on each line of
+                    tablature.  Each measure is the same width.
+                </li>
+                <li><strong>Lead in beats</strong>: The Shawzin recorder starts on the first note, and all timing is
+                    based off that.  If the song's first note is not at the beginning of a measure then that will throw
+                    all the timing off.
+                    <p>
+                        To fix this, you can tell the generator how many beats of your song are considered "lead in"
+                        before getting to the first full measure.  This can be a fractional number of beats.
+                    </p>
+                    <p>
+                        For example, if your Time Signature is 4/4 and you have an eight-note lead in, then then
+                        <strong>Lead in beats</strong> should be set to <strong>0.5</strong>.
+                    </p>
+                </li>
+            </ul>
 
             <h1 id="tocToDo">To Do</h1>
             <ul>
@@ -1510,6 +1562,9 @@
                 <li>
                     Re-generate the tab automatically after making a change,
                     without having to click the "Generate Tab" button
+                </li>
+                <li>
+                    Examples
                 </li>
             </ul>
 
@@ -1533,7 +1588,7 @@
             <a href="https://github.com/buff0000n/shawzintab/issues/1">Feedback</a>
         </div>
         <div>
-            v1.0.1: 2019-09-26
+            v1.0.2: 2019-09-26
         </div>
         <div>Thanks:
             <div><a href="https://forums.warframe.com/profile/3060756-ps4poison___insect/">(PS4)Poison___Insect</a></div>
