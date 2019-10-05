@@ -632,9 +632,9 @@
         return i;
     }
 
-	function parseFloat(intString) {
+	function parseFloat(s) {
 	    // read a decimal from a string
-	    var i = Number.parseFloat(intString);
+	    var i = Number.parseFloat(s);
 	    if (Number.isNaN(i) || i < 0) {
             throw "Invalid number: \"" + s + "\"";
 	    }
