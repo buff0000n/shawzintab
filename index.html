@@ -325,6 +325,7 @@
         top: 120%;
         left: calc(50% - 15ex);
         margin-left: -2ex;
+        pointer-events: none;
 
         opacity: 0;
         transition: opacity 500ms;
@@ -631,9 +632,9 @@
         return i;
     }
 
-	function parseFloat(intString) {
+	function parseFloat(s) {
 	    // read a decimal from a string
-	    var i = Number.parseFloat(intString);
+	    var i = Number.parseFloat(s);
 	    if (Number.isNaN(i) || i < 0) {
             throw "Invalid number: \"" + s + "\"";
 	    }
@@ -1085,13 +1086,13 @@
 
         if (document.getElementById("metered").checked) {
             query += "&metered=y"
-                + "&meter=" + document.getElementById("meter").value
-                + "&tempo=" + document.getElementById("tempo").value
-                + "&measuresPerLine=" + document.getElementById("measuresPerLine").value
-                + "&leadInBeats=" + document.getElementById("leadInBeats").value;
+                + ("&meter=" + document.getElementById("meter").value || "4/4")
+                + ("&tempo=" + document.getElementById("tempo").value || "120")
+                + ("&measuresPerLine=" + document.getElementById("measuresPerLine").value || "4")
+                + ("&leadInBeats=" + document.getElementById("leadInBeats").value || "0");
         } else {
             query += "&metered=n"
-                + "&secondsPerLine=" + document.getElementById("secondsPerLine").value;
+                + ("&secondsPerLine=" + document.getElementById("secondsPerLine").value || "4");
         }
 
         query += "&song=" + urlEncodeString(songString, false)
@@ -1234,15 +1235,15 @@
                 buildTabWithMeasures(song,
                     document.getElementById("songTitle").value,
                     document.getElementById("author").value,
-                    document.getElementById("meter").value,
+                    document.getElementById("meter").value || "4/4",
                     document.getElementById("tempo").value,
-                    document.getElementById("measuresPerLine").value,
-                    document.getElementById("leadInBeats").value);
+                    document.getElementById("measuresPerLine").value || "4",
+                    document.getElementById("leadInBeats").value || "0");
             } else {
                 buildTabWithoutMeasures(song,
                     document.getElementById("songTitle").value,
                     document.getElementById("author").value,
-                    document.getElementById("secondsPerLine").value);
+                    document.getElementById("secondsPerLine").value || "4");
             }
             clearErrors();
 
@@ -1344,7 +1345,7 @@
         <div class="util" id="secondsPerLineDiv">
             <div class="tooltip">
                 <span class="label">Seconds per line:</span>
-                <input id="secondsPerLine" class="secondsPerLine" type="number" value="4"/>
+                <input id="secondsPerLine" class="secondsPerLine" type="number" step="0.01" value="4" min="1" placehoder="4" />
                 <span class="tooltiptextbottom">How many seconds on each line</span>
             </div>
         </div>
@@ -1352,7 +1353,7 @@
         <div class="util" id="meterDiv">
             <div class="tooltip">
                 <span class="label">Time Signature:</span>
-                <input id="meter" class="meter" type="text" value="4/4"/>
+                <input id="meter" class="meter" type="text" value="4/4" placeholder="4/4" />
                 <!--
                 <select id="meter" class="meter">
                     <option value="4/4">4/4</option>
@@ -1368,7 +1369,7 @@
             <div class="tooltip">
                 <span class="label">Tempo:</span>
                 <select id="tempo" class="tempo">
-                    <option value="120">120 bps</option>
+                    <option value="120" selected>120 bps</option>
                     <option value="160">160 bps</option>
                     <option value="240">240 bps</option>
                     <option value="80">80 bps</option>
@@ -1380,14 +1381,14 @@
         <div class="util" id="measuresPerLineDiv">
             <div class="tooltip">
                 <span class="label">Measures per line:</span>
-                <input id="measuresPerLine" class="measuresPerLine" type="number" value="4" size="3"/>
+                <input id="measuresPerLine" class="measuresPerLine" type="number" value="4" size="3" min="1" placehoder="4" />
                 <span class="tooltiptextbottom">How many measures per line</span>
             </div>
         </div>
         <div class="util" id="leadInBeatsDiv">
             <div class="tooltip">
                 <span class="label">Lead in beats:</span>
-                <input id="leadInBeats" class="leadInBeats" type="number" value="0" step="0.125" size="5"/>
+                <input id="leadInBeats" class="leadInBeats" type="number" value="0" step="0.125" size="5" min="0" placehoder="0" />
                 <span class="tooltiptextbottom">Use this to align the song on a measure boundary if the first note is not at the beginning of a measure</span>
             </div>
         </div>
@@ -1588,7 +1589,7 @@
             <a href="https://github.com/buff0000n/shawzintab/issues/1">Feedback</a>
         </div>
         <div>
-            v1.0.2: 2019-09-26
+            v1.0.3: 2019-10-04
         </div>
         <div>Thanks:
             <div><a href="https://forums.warframe.com/profile/3060756-ps4poison___insect/">(PS4)Poison___Insect</a></div>
