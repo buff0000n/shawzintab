@@ -19,6 +19,9 @@
     input, textarea {
         color: #000000;
     }
+    input:invalid {
+        background: #FF8888;
+    }
     .title {
 	    font-weight: bold;
 	    font-size: 100%;
@@ -1235,22 +1238,25 @@
             // parse the UI into a model
             var songString = getSong();
 
-            var song = new Song().fromString(songString);
+            if (songString) {
+                var song = new Song().fromString(songString);
 
-            if (document.getElementById("metered").checked) {
-                buildTabWithMeasures(song,
-                    document.getElementById("songTitle").value,
-                    document.getElementById("author").value,
-                    document.getElementById("meter").value || "4/4",
-                    document.getElementById("tempo").value,
-                    document.getElementById("measuresPerLine").value || "4",
-                    document.getElementById("leadInBeats").value || "0");
-            } else {
-                buildTabWithoutMeasures(song,
-                    document.getElementById("songTitle").value,
-                    document.getElementById("author").value,
-                    document.getElementById("secondsPerLine").value || "4");
+                if (document.getElementById("metered").checked) {
+                    buildTabWithMeasures(song,
+                        document.getElementById("songTitle").value,
+                        document.getElementById("author").value,
+                        document.getElementById("meter").value || "4/4",
+                        document.getElementById("tempo").value,
+                        document.getElementById("measuresPerLine").value || "4",
+                        document.getElementById("leadInBeats").value || "0");
+                } else {
+                    buildTabWithoutMeasures(song,
+                        document.getElementById("songTitle").value,
+                        document.getElementById("author").value,
+                        document.getElementById("secondsPerLine").value || "4");
+                }
             }
+
             clearErrors();
 
         } finally {
@@ -1590,7 +1596,7 @@
             <a href="https://github.com/buff0000n/shawzintab/issues/1">Feedback</a>
         </div>
         <div>
-            v1.0.4: 2019-10-07
+            v1.0.6: 2019-10-22
         </div>
         <div>Thanks:
             <div><a href="https://forums.warframe.com/profile/3060756-ps4poison___insect/">(PS4)Poison___Insect</a></div>
