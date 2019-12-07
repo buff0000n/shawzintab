@@ -155,7 +155,7 @@
     .utilHidden {
         display: none;
     }
-    .button, #meteredDiv, #meterDiv, #tempoDiv, #measuresPerLineDiv, #leadInBeatsDiv, #secondsPerLineDiv, .start, .urlButton {
+    .button, #meteredDiv, #darkModeDiv, #meterDiv, #tempoDiv, #measuresPerLineDiv, #leadInBeatsDiv, #secondsPerLineDiv, .start, .urlButton {
         background-color: #808080;
         border: none;
         color: #FFFFFF;
@@ -388,6 +388,8 @@
 
     // todo: make this configurable?
     var stringThreeOnTop = true;
+
+    var darkMode = false;
 
     // thanks to https://www.reddit.com/r/Warframe/comments/cxbxoc/shawzin_song_recording_syntax/
 
@@ -658,14 +660,26 @@
 
         // set a few constants for the image
         // todo: pull these from CSS like I do with rngsim
-        var sideMargin = 15;
-        var topBottomMargin = 15;
-        var headerHeight = 60;
-        var footerHeight = 30;
-        var pageWidth = 1000;
-        var lineHeight = 60;
-        var fontSize = 15;
-        var lineSeparation = 60;
+        if (darkMode) {
+            var sideMargin = 15;
+            var topBottomMargin = 15;
+            var headerHeight = 60;
+            var footerHeight = 30;
+            var pageWidth = 1000;
+            var lineHeight = 60;
+            var fontSize = 18;
+            var lineSeparation = 60;
+
+        } else {
+            var sideMargin = 15;
+            var topBottomMargin = 15;
+            var headerHeight = 60;
+            var footerHeight = 30;
+            var pageWidth = 1000;
+            var lineHeight = 60;
+            var fontSize = 15;
+            var lineSeparation = 60;
+        }
 
         // these are calculated
         var pageHeight = headerHeight + footerHeight + (lineHeight * lineSongs.length) + (lineSeparation * (lineSongs.length - 1)) + (topBottomMargin * 2);
@@ -685,17 +699,17 @@
         var context = canvas.getContext("2d");
 
         // fill the whole canvas with a background color, otherwise it will be transparent
-        context.fillStyle = "#FFFFFF";
+        context.fillStyle = darkMode ? "#000000" : "#FFFFFF";
         context.fillRect(0, 0, canvas.width, canvas.height);
 
         // set the line color and width
-        context.strokeStyle = "#000000";
-        context.lineWidth = fontSize/10;
+        context.strokeStyle = darkMode ? "#FFFFFF" : "#000000";
+        context.lineWidth = darkMode ? fontSize / 6 : fontSize / 10;
 
         // set up the title text
         context.font = (fontSize * 2) + "px Arial";
         context.textAlign = "center";
-        context.fillStyle = "#000000";
+        context.fillStyle = darkMode ? "#FFFFFF" : "#000000";
         // title
         context.fillText(title, pageWidth/2, topBottomMargin + headerHeight * 0.3);
 
@@ -742,7 +756,7 @@
         var y2 = (y1 + y3) / 2;
 
         // we'll use this line width for pretty much everything
-        context.lineWidth = fontSize / 10;
+        context.lineWidth = darkMode ? fontSize / 6 : fontSize / 10;
 
         // width for the string labels on the left
         var labelWidth = fontSize * 1.5
@@ -814,9 +828,9 @@
 
         // fill color depends on whether we're clearing or drawing
         if (clear) {
-            context.fillStyle = "#FFFFFF";
+            context.fillStyle = darkMode ? "#000000" : "#FFFFFF";
         } else {
-            context.fillStyle = "#000000";
+            context.fillStyle = darkMode ? "#FFFFFF" : "#000000";
         }
 
         // iterate over the notes
@@ -862,7 +876,7 @@
             context.fillText(text, x3, ty);
             // if it's a multi-fret chord then underline it
             if (text.length > 1) {
-                context.lineWidth = fontSize / 20;
+                context.lineWidth = darkMode ? fontSize / 6 : fontSize / 10;
                 drawLine(context, x3-(w/2), ty+(h*0.3), x3+(w/2), ty+(h*0.3))
             }
         }
@@ -1176,6 +1190,12 @@
         valueChanged(checkbox);
     }
 
+    function darkModeChanged(checkbox) {
+        darkMode = checkbox.checked;
+        valueChanged(checkbox);
+        document.getElementById("tabArea").style.backgroundColor = darkMode ? "#000000" : "#FFFFFF";
+    }
+
     function valueChanged(input) {
         startRun();
     }
@@ -1403,6 +1423,14 @@
                 <span class="label">Lead in beats:</span>
                 <input id="leadInBeats" class="leadInBeats" type="number" value="0" step="0.125" size="5" min="0" placehoder="0" onchange="valueChanged(this);"/>
                 <span class="tooltiptextbottom">Use this to align the song on a measure boundary if the first note is not at the beginning of a measure</span>
+            </div>
+        </div>
+
+        <div class="util" id="darkModeDiv">
+            <div class="tooltip">
+                <input id="darkMode" class="button" type="checkbox" onchange="darkModeChanged(this);"/>
+                <span class="label">Dark</span>
+                <span class="tooltiptextbottom">Enable for a dark-colored image intead of a light one.</span>
             </div>
         </div>
 
