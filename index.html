@@ -564,7 +564,7 @@
     // UI Builders
     //==============================================================
 
-    function buildTabWithoutMeasures(song, title, author, secondsPerLine) {
+    function buildTabWithoutMeasures(song, platform, title, author, secondsPerLine) {
         var secondsPerLineFloat = parseFloat(secondsPerLine);
 
         if (secondsPerLineFloat <= 0) {
@@ -573,10 +573,10 @@
 
         // 16 ticks in a second
         // round to the nearest tick
-        buildTab(song, title, author, Math.round(secondsPerLineFloat * 16));
+        buildTab(song, platform, title, author, Math.round(secondsPerLineFloat * 16));
     }
 
-    function buildTabWithMeasures(song, title, author, meter, tempo, measuresPerLine, leadInBeats) {
+    function buildTabWithMeasures(song, platform, title, author, meter, tempo, measuresPerLine, leadInBeats) {
         // parse the tempo
         var tempoInt = parseInt(tempo);
         if (tempoInt <= 0) {
@@ -625,7 +625,7 @@
         var leadInTicks = Math.round(leadInBeatsFloat * ticksPerBeat);
 
         // glad that's all out of the way
-        buildTab(song, title, author, ticksPerLine, ticksPerMeasure, ticksPerBeat, leadInTicks);
+        buildTab(song, platform, title, author, ticksPerLine, ticksPerMeasure, ticksPerBeat, leadInTicks);
 
     }
 
@@ -651,7 +651,7 @@
         context.drawImage(img, x - (img.width / 2), y - (img.height / 2));
     }
 
-    function buildTab(song, title, author, lineBreaks, measureBreaks=0, beatBreaks=0, leadIn=0) {
+    function buildTab(song, platform, title, author, lineBreaks, measureBreaks=0, beatBreaks=0, leadIn=0) {
         // get the tab container
         var tabArea = document.getElementById("tabArea")
 
@@ -674,6 +674,30 @@
             var lineHeight = 60;
             var fontSize = 18;
             var lineSeparation = 60;
+
+        } else {
+            var sideMargin = 15;
+            var topBottomMargin = 15;
+            var headerHeight = 80;
+            var footerHeight = 50;
+            var pageWidth = 1000;
+            var lineHeight = 60;
+            var fontSize = 15;
+            var lineSeparation = 60;
+        }
+
+        if (platform == "none") {
+            var fretSep = 0;
+            // enable old rendering method
+            var string1 = null;
+            var string2 = null;
+            var string3 = null;
+            var fret0 = null;
+            var fret1 = null;
+            var fret2 = null;
+            var fret3 = null;
+
+        } else if (darkMode) {
             var fretSep = 14;
             // image objects
             var string1 = document.getElementById("plat_s_1_d")
@@ -685,14 +709,6 @@
             var fret3 = document.getElementById("plat_f_3_d")
 
         } else {
-            var sideMargin = 15;
-            var topBottomMargin = 15;
-            var headerHeight = 80;
-            var footerHeight = 50;
-            var pageWidth = 1000;
-            var lineHeight = 60;
-            var fontSize = 15;
-            var lineSeparation = 60;
             var fretSep = 12;
             // image objects
             var string1 = document.getElementById("plat_s_1_l")
@@ -795,10 +811,17 @@
         drawLine(context, x1, y3, x2, y3);
 
         // string line labels
-        drawCenteredImage(context, stringThreeOnTop ? string3 : string1, x1-(fontSize*1), y1);
-        drawCenteredImage(context, string2, x1-(fontSize*1), y2);
-        drawCenteredImage(context, stringThreeOnTop ? string1 : string3, x1-(fontSize*1), y3);
+        if (!fret0) {
+            placeText(context, fontSize, stringThreeOnTop ? "3" : "1", x1-(fontSize*1), y1);
+            placeText(context, fontSize, "2", x1-(fontSize*1), y2);
+            placeText(context, fontSize, stringThreeOnTop ? "1" : "3", x1-(fontSize*1), y3);
 
+        } else {
+            drawCenteredImage(context, stringThreeOnTop ? string3 : string1, x1-(fontSize*1), y1);
+            drawCenteredImage(context, string2, x1-(fontSize*1), y2);
+            drawCenteredImage(context, stringThreeOnTop ? string1 : string3, x1-(fontSize*1), y3);
+        }
+        
         if (measureBreaks != 0) {
             // draw measure lines
             for (var i = 0; i <= lineBreaks; i+= measureBreaks) {
@@ -809,21 +832,42 @@
             // split up the line by measures
             var measureSongs = lineSong.split(measureBreaks);
 
-            for (var m = 0; m < measureSongs.length; m++) {
-                var measureSong = measureSongs[m];
-                var x1b = x1 + (((x2 - x1) * (m * measureBreaks)) / lineBreaks);
-                var x2b = x1 + (((x2 - x1) * ((m + 1) * measureBreaks)) / lineBreaks);
-                drawNotes(context, x1b+barMargin, y1, x2b-barMargin, y3, y2, fontSize, measureSong, measureBreaks, 
-                          fret0, fret1, fret2, fret3, fretSep);
+            function drawMeasure(clear) {
+                for (var m = 0; m < measureSongs.length; m++) {
+                    var measureSong = measureSongs[m];
+                    var x1b = x1 + (((x2 - x1) * (m * measureBreaks)) / lineBreaks);
+                    var x2b = x1 + (((x2 - x1) * ((m + 1) * measureBreaks)) / lineBreaks);
+                    drawNotes(context, x1b+barMargin, y1, x2b-barMargin, y3, y2, fontSize, measureSong, measureBreaks, 
+                              clear, fret0, fret1, fret2, fret3, fretSep);
+                }
+            }
+
+            if (!fret0) {
+                drawMeasure(true);
+                drawMeasure(false);
+
+            } else {           
+                drawMeasure(true);
             }
 
         } else {
             // just put lines at the beginning and ending of each line
             drawLine(context, x1, y1, x1, y3);
             drawLine(context, x2, y1, x2, y3);
+            
+            if (!fret0) {
+                // clear space for all the notes first
+                drawNotes(context, x1+barMargin, y1, x2-barMargin, y3, y2, fontSize, lineSong, lineBreaks, 
+                        true, fret0, fret1, fret2, fret3, fretSep);
+    
+                // now draw the notes
+                drawNotes(context, x1+barMargin, y1, x2-barMargin, y3, y2, fontSize, lineSong, lineBreaks, 
+                        false, fret0, fret1, fret2, fret3, fretSep);
 
-            drawNotes(context, x1+barMargin, y1, x2-barMargin, y3, y2, fontSize, lineSong, lineBreaks, 
-                      fret0, fret1, fret2, fret3, fretSep);
+            } else {
+                drawNotes(context, x1+barMargin, y1, x2-barMargin, y3, y2, fontSize, lineSong, lineBreaks, 
+                          true, fret0, fret1, fret2, fret3, fretSep);
+            }
         }
 
         // beat lines are too much clutter
@@ -841,7 +885,17 @@
 
     }
 
-    function drawNotes(context, x1, y1, x2, y3, y2, fontSize, drawSong, intervalLength, fret0, fret1, fret2, fret3, fretSep) {
+    function drawNotes(context, x1, y1, x2, y3, y2, fontSize, drawSong, intervalLength, clear, fret0, fret1, fret2, fret3, fretSep) {
+        if (!fret0) {
+            context.textAlign = "center";
+    
+            // fill color depends on whether we're clearing or drawing
+            if (clear) {
+                context.fillStyle = darkMode ? "#000000" : "#FFFFFF";
+            } else {
+                context.fillStyle = darkMode ? "#FFFFFF" : "#000000";
+            }
+        }
         // iterate over the notes
         for (var n = 0; n < drawSong.notes.length; n++) {
             var note = drawSong.notes[n];
@@ -861,35 +915,42 @@
                     case "3": ty = stringThreeOnTop ? y1 : y3; break;
                 }
 
-                // draw the three frets, either open or closed
-                drawCenteredImage(context, note.fret.includes("1") ? fret1 : fret0, x3, ty + fretSep);
-                drawCenteredImage(context, note.fret.includes("2") ? fret2 : fret0, x3, ty);
-                drawCenteredImage(context, note.fret.includes("3") ? fret3 : fret0, x3, ty - fretSep);
+                if (!fret0) {
+                    // if there's no frets then use "0"
+                    var fret = (note.fret != "" ? note.fret : "0");
+    
+                    // clear space or draw the note
+                    placeText(context, fontSize, fret, x3, ty, clear);
+                } else {
+                    // draw the three frets, either open or closed
+                    drawCenteredImage(context, note.fret.includes("1") ? fret1 : fret0, x3, ty + fretSep);
+                    drawCenteredImage(context, note.fret.includes("2") ? fret2 : fret0, x3, ty);
+                    drawCenteredImage(context, note.fret.includes("3") ? fret3 : fret0, x3, ty - fretSep);
+                }
             }
         }
     }
 
-    // not used but maybe useful somewhere else
-    // function placeText(context, fontSize, text, x3, ty, clear=false) {
-    //     // kludge to make it appear in the middle of the string line
-    //     // todo: how many browsers support context.measureText()?
-    //     ty += (fontSize*0.35);
-    //     var w = text.length * (fontSize * 0.8);
-    //     var h = fontSize;
-    // 
-    //     if (clear) {
-    //         // clear a rectangle around the text
-    //         context.fillRect(x3-(w/2), ty-h, w, h*1.3);
-    //     } else {
-    //         // draw the text
-    //         context.fillText(text, x3, ty);
-    //         // if it's a multi-fret chord then underline it
-    //         if (text.length > 1) {
-    //             context.lineWidth = darkMode ? fontSize / 6 : fontSize / 10;
-    //             drawLine(context, x3-(w/2), ty+(h*0.3), x3+(w/2), ty+(h*0.3))
-    //         }
-    //     }
-    // }
+    function placeText(context, fontSize, text, x3, ty, clear=false) {
+        // kludge to make it appear in the middle of the string line
+        // todo: how many browsers support context.measureText()?
+        ty += (fontSize*0.35);
+        var w = text.length * (fontSize * 0.8);
+        var h = fontSize;
+
+        if (clear) {
+            // clear a rectangle around the text
+            context.fillRect(x3-(w/2), ty-h, w, h*1.3);
+        } else {
+            // draw the text
+            context.fillText(text, x3, ty);
+            // if it's a multi-fret chord then underline it
+            if (text.length > 1) {
+                context.lineWidth = darkMode ? fontSize / 6 : fontSize / 10;
+                drawLine(context, x3-(w/2), ty+(h*0.3), x3+(w/2), ty+(h*0.3))
+            }
+        }
+    }
 
     function drawLine(context, x1, y1, x2, y2) {
         // why is this so annoying
@@ -1245,7 +1306,7 @@
     var imagesStillLoading = 0;
 
     // platform constants
-    var platformList = ["ps4", "xb1", "nsw", "pc"];
+    var platformList = ["ps4", "xb1", "nsw", "pc", "none"];
 
     var platformImgList = [
         "_f_1_d",
@@ -1273,13 +1334,13 @@
 
     function initPlatformImages() {
         // get the platform preference from cookies
-        plat = getCookie("platform")
+        platName = getCookie("platform")
         // if it's empty or otherwise not valid then default to PS4
-        if (!platformList.includes(plat)) {
-            plat = "ps4";
+        if (!platformList.includes(platName)) {
+            platName = "ps4";
         }
         // set the UI
-        platformElement = document.getElementById("platform").value = plat;
+        platformElement = document.getElementById("platform").value = platName;
 
         // init the loading image count before we add the elements
         // add two for the platform-neutral dot images, loaded once on start-up
@@ -1293,7 +1354,9 @@
         // load the platform-specific images
         for (var i = 0; i < platformImgList.length; i++) {
             var suffix = platformImgList[i];
-            imageLoaderContainer.append(createImageLoader("plat" + suffix, plat + suffix));
+            // hack so I don't have to worry about intializing the image loaders in multiple different ways
+            var prefix = platName == "none" ? "ps4" : platName;
+            imageLoaderContainer.append(createImageLoader("plat" + suffix, prefix + suffix));
         }
     }
 
@@ -1309,7 +1372,9 @@
         // change the existing image elements to load the new images
         for (var i = 0; i < platformImgList.length; i++) {
             var suffix = platformImgList[i];
-            document.getElementById("plat" + suffix).src = "img/" + platName + suffix + ".png";
+            // hack so I don't have to worry about intializing the image loaders in multiple different ways
+            var prefix = platName == "none" ? "ps4" : platName;
+            document.getElementById("plat" + suffix).src = "img/" + prefix + suffix + ".png";
         }
     }
 
@@ -1396,6 +1461,7 @@
 
                 if (document.getElementById("metered").checked) {
                     buildTabWithMeasures(song,
+                        document.getElementById("platform").value,
                         document.getElementById("songTitle").value,
                         document.getElementById("author").value,
                         document.getElementById("meter").value || "4/4",
@@ -1404,6 +1470,7 @@
                         document.getElementById("leadInBeats").value || "0");
                 } else {
                     buildTabWithoutMeasures(song,
+                        document.getElementById("platform").value,
                         document.getElementById("songTitle").value,
                         document.getElementById("author").value,
                         document.getElementById("secondsPerLine").value || "4");
@@ -1512,8 +1579,9 @@
                     <option value="xb1">XB1</option>
                     <option value="nsw">NSW</option>
                     <option value="pc">PC</option>
+                    <option value="none">None</option>
                 </select>
-                <span class="tooltiptextbottom">Select which platform's controls to display</span>
+                <span class="tooltiptextbottom">Select which platform's controls to display.  Choose <strong>None</strong> to use the old numeric display.</span>
             </div>
         </div>
 
@@ -1677,7 +1745,7 @@
             <p>
                 The string and fret buttons are displayed based on your platform.  Use the <strong>Platform</strong>
                 drop-down to select from <strong>PS4</strong>, <strong>XB1</strong>, <strong>NSW</strong>, or
-                <strong>PC</strong>
+                <strong>PC</strong>.  Select <strong>None</strong> to revert back to the old, numeric tab view.
             </p>
             <p>
                 If you have cookies enabled then your platform selection will be remembered for any other Shawzin Tab
