@@ -155,7 +155,7 @@
     .utilHidden {
         display: none;
     }
-    .button, #platformDiv, #meteredDiv, #darkModeDiv, #meterDiv, #tempoDiv, #measuresPerLineDiv, #leadInBeatsDiv, #secondsPerLineDiv, .start, .urlButton {
+    .button, #platformDiv, #meteredDiv, #darkModeDiv, #hidpiDiv, #meterDiv, #tempoDiv, #measuresPerLineDiv, #leadInBeatsDiv, #secondsPerLineDiv, .start, .urlButton {
         background-color: #808080;
         border: none;
         color: #FFFFFF;
@@ -390,6 +390,11 @@
     var stringThreeOnTop = true;
 
     var darkMode = false;
+    var hiDPI = false;
+
+    function isHiDPI() {
+        return hiDPI;
+    }
 
     // thanks to https://www.reddit.com/r/Warframe/comments/cxbxoc/shawzin_song_recording_syntax/
 
@@ -663,27 +668,29 @@
         // split the song up into sub-songs by lines
         var lineSongs = song.split(lineBreaks);
 
+        var scale = isHiDPI() ? 2 : 1;
+
         // set a few constants for the image
         // todo: pull these from CSS like I do with rngsim
         if (darkMode) {
-            var sideMargin = 15;
-            var topBottomMargin = 15;
-            var headerHeight = 80;
-            var footerHeight = 50;
-            var pageWidth = 1000;
-            var lineHeight = 60;
-            var fontSize = 18;
-            var lineSeparation = 60;
+            var sideMargin = 15 * scale;
+            var topBottomMargin = 15 * scale;
+            var headerHeight = 80 * scale;
+            var footerHeight = 50 * scale;
+            var pageWidth = 1000 * scale;
+            var lineHeight = 60 * scale;
+            var fontSize = 18 * scale;
+            var lineSeparation = 60 * scale;
 
         } else {
-            var sideMargin = 15;
-            var topBottomMargin = 15;
-            var headerHeight = 80;
-            var footerHeight = 50;
-            var pageWidth = 1000;
-            var lineHeight = 60;
-            var fontSize = 15;
-            var lineSeparation = 60;
+            var sideMargin = 15 * scale;
+            var topBottomMargin = 15 * scale;
+            var headerHeight = 80 * scale;
+            var footerHeight = 50 * scale;
+            var pageWidth = 1000 * scale;
+            var lineHeight = 60 * scale;
+            var fontSize = 15 * scale;
+            var lineSeparation = 60 * scale;
         }
 
         if (platform == "none") {
@@ -698,7 +705,7 @@
             var fret3 = null;
 
         } else if (darkMode) {
-            var fretSep = 14;
+            var fretSep = 14 * scale;
             // image objects
             var string1 = document.getElementById("plat_s_1_d")
             var string2 = document.getElementById("plat_s_2_d")
@@ -709,7 +716,7 @@
             var fret3 = document.getElementById("plat_f_3_d")
 
         } else {
-            var fretSep = 12;
+            var fretSep = 12 * scale;
             // image objects
             var string1 = document.getElementById("plat_s_1_l")
             var string2 = document.getElementById("plat_s_2_l")
@@ -730,6 +737,11 @@
 
         // find the canvas element we just added
         var canvas = getFirstChild(tabArea, "tabCanvas");
+
+        if (scale != 1) {
+            canvas.style.height = (pageHeight/scale) + 'px';
+            canvas.style.width = (pageWidth/scale) + 'px';
+        }
 
         // save the title to the canvas element for convertToPng() to pick up for a file name
 	    canvas.saveName = title;
@@ -972,11 +984,18 @@
             name = "song";
         }
         var fileName = name + ".png";
+
+        if (canvas.style.height) {
+            var imgStyle = `style = "height: ` + canvas.style.height + `; width: ` + canvas.style.width + `"`;
+        } else {
+            var imgStyle = ``;
+        }
+
         // replace the canvas with an image
         // Ugh, the only way to give it a file name is to wrap it in a link element, and duplicate the entire src contents.
         canvas.parentElement.innerHTML = `
             <a download="${fileName}" href="${src}">
-                <image src="${src}"></image>
+                <image src="${src}" ` + imgStyle + `></image>
             </a>
         `;
     }
@@ -1128,6 +1147,7 @@
         // stuff that gets init'd from cookies
         initPlatformImages();
         initDarkMode()
+        initHiDPI()
 
         // init the model
         reinitModel(url);
@@ -1302,6 +1322,21 @@
         setCookie("dark", darkMode ? "true" : "false");
     }
 
+    function initHiDPI() {
+        // check cookie for a preferenc
+        if ("true" == getCookie("hidpi")) {
+            var checkbox = document.getElementById("hiDPI")
+            checkbox.checked = true;
+            hiDPIChanged(checkbox);
+        }
+    }
+
+    function hiDPIChanged(checkbox) {
+        hiDPI = checkbox.checked;
+        platformChanged();
+        setCookie("hidpi", hiDPI ? "true" : "false");
+    }
+
     // loading images is async, keep track of how many are still loading so we can do something when it hits zero
     var imagesStillLoading = 0;
 
@@ -1327,7 +1362,7 @@
         // create an <img> element with the right ID, src, and onload function
         var img = document.createElement("img");
         img.id = id;
-        img.src = "img/" + src + ".png";
+        img.src = (isHiDPI() ? "img2x/" : "img/") + src + ".png";
         img.onload = platformImageLoaded;
         return img;
     }
@@ -1342,39 +1377,40 @@
         // set the UI
         platformElement = document.getElementById("platform").value = platName;
 
-        // init the loading image count before we add the elements
-        // add two for the platform-neutral dot images, loaded once on start-up
-        imagesStillLoading = platformImgList.length + 2;
-
-        // hidden image container
-        var imageLoaderContainer = document.getElementById("imageLoaderContainer");
-        // add the platform-neutral dots
-        imageLoaderContainer.append(createImageLoader("all_f_0_l", "all_f_0_l"));
-        imageLoaderContainer.append(createImageLoader("all_f_0_d", "all_f_0_d"));
-        // load the platform-specific images
-        for (var i = 0; i < platformImgList.length; i++) {
-            var suffix = platformImgList[i];
-            // hack so I don't have to worry about intializing the image loaders in multiple different ways
-            var prefix = platName == "none" ? "ps4" : platName;
-            imageLoaderContainer.append(createImageLoader("plat" + suffix, prefix + suffix));
-        }
+        platformChanged();
     }
 
     function platformChanged(platform) {
         platformElement = document.getElementById("platform")
-        // shrug, disable the platform dropdown while we're loading
-        platformElement.disabled = true;
         // get the platform name
         platName = platformElement.value;
-        // preset the images still loading counter
-        imagesStillLoading = platformImgList.length;
 
-        // change the existing image elements to load the new images
-        for (var i = 0; i < platformImgList.length; i++) {
-            var suffix = platformImgList[i];
-            // hack so I don't have to worry about intializing the image loaders in multiple different ways
-            var prefix = platName == "none" ? "ps4" : platName;
-            document.getElementById("plat" + suffix).src = "img/" + prefix + suffix + ".png";
+        // hidden image container
+        var imageLoaderContainer = document.getElementById("imageLoaderContainer");
+        // clear everything out
+        imageLoaderContainer.innerHTML = ``;
+
+        if  (platName == "none") {
+            valueChanged();
+
+        } else {
+            // shrug, disable the platform dropdown while we're loading
+            platformElement.disabled = true;
+
+            // init the loading image count before we add the elements
+            // add two for the platform-neutral dot images, loaded once on start-up
+            imagesStillLoading = platformImgList.length + 2;
+
+            // add the platform-neutral dots
+            imageLoaderContainer.append(createImageLoader("all_f_0_l", "all_f_0_l"));
+            imageLoaderContainer.append(createImageLoader("all_f_0_d", "all_f_0_d"));
+            // load the platform-specific images
+            for (var i = 0; i < platformImgList.length; i++) {
+                var suffix = platformImgList[i];
+                // hack so I don't have to worry about intializing the image loaders in multiple different ways
+                var prefix = platName == "none" ? "ps4" : platName;
+                imageLoaderContainer.append(createImageLoader("plat" + suffix, prefix + suffix));
+            }
         }
     }
 
@@ -1392,6 +1428,10 @@
             // redraw the tablature
             valueChanged();
         }
+    }
+
+    function isHiDPIEnabled() {
+        return true;
     }
 
     function valueChanged(input) {
@@ -1653,6 +1693,13 @@
                 <span class="tooltiptextbottom">Enable for a dark-colored image intead of a light one.</span>
             </div>
         </div>
+        <div class="util" id="hiDPIDiv">
+            <div class="tooltip">
+                <input id="hiDPI" class="button" type="checkbox" onchange="hiDPIChanged(this);"/>
+                <span class="label">High DPI</span>
+                <span class="tooltiptextbottom">Enable for a higher-resolution tab image.</span>
+            </div>
+        </div>
 
         <div id="generateDiv" class="util">
             <span class="tooltip">
@@ -1873,7 +1920,7 @@
             <a href="https://github.com/buff0000n/shawzintab/issues/1">Feedback</a>
         </div>
         <div>
-            v2.0.0: 2020-07-05
+            v2.0.2: 2020-07-07
         </div>
         <div>Thanks:
             <div><a href="https://forums.warframe.com/profile/3060756-ps4poison___insect/">(PS4)Poison___Insect</a></div>
