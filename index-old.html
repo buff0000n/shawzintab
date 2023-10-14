@@ -1,0 +1,1932 @@
+<html>
+<!-- Full disclosure: JavaScript is not my forte and neither is CSS. -B -->
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<meta name="viewport" content="width=640, initial-scale=1">
+<head>
+    <title>Warframe Shawzin Tab Generator</title>
+</head>
+<!-- embedded favicon because why not -->
+<link href="data:image/png;base64,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" rel="icon" type="image/png" />
+<style type="text/css">
+    /* general formatting */
+    * {
+        font-family: sans-serif;
+        color: #B0B0B0;
+    }
+    body {
+        background-color: #202020;
+    }
+    input, textarea {
+        color: #000000;
+    }
+    input:invalid {
+        background: #FF8888;
+    }
+    .title {
+	    font-weight: bold;
+	    font-size: 100%;
+	    color: #80A0D0;
+	    display: inline;
+    }
+    .titleBar {
+        background-color: #404040;
+        margin: 1ex;
+        padding: 1ex;
+        border-radius: 1ex;
+        text-align: middle;
+    }
+    .titleBar .businessDiv {
+        margin: 2ex 1ex 1ex 1ex;
+    }
+    .mainTitle {
+	    font-weight: bold;
+	    text-align: center;
+	    font-size: 200%;
+	    color: #FFFFFF;
+    }
+    .subTitle {
+	    font-weight: bold;
+	    text-align: center;
+	    font-size: 150%;
+	    color: #FFFFFF;
+    }
+    .label {
+        color: #FFFFFF;
+    }
+    a {
+        color: #8080FF
+    }
+    a:visited {
+        color: #D080FF
+    }
+    ul {
+        list-style-type: disc;
+    }
+    li {
+        margin: 0ex 0ex 1ex 0ex;
+    }
+
+    /* help section formatting */
+    #lotsOfWordsContainer, .footerContainer {
+        background-color: #202020;
+        margin: 1ex;
+        padding: 1ex;
+        border-radius: 1ex;
+   	    text-align: center;
+    }
+    .lotsOfWords, .footer {
+        max-width: 100ex;
+        display: inline-block;
+   	    text-align: left;
+    }
+    .footer {
+	    font-weight: bold;
+	    font-size: 100%;
+    }
+    .about {
+        text-align: center;
+    }
+    h1, h2, h3, h4 {
+        color: A0C0F0;
+    }
+    strong {
+        color: 6080B0;
+    }
+    .warn, .warn * {
+        color: D06040;
+    }
+    #TOC li {
+        margin: 0;
+    }
+
+    /* notes formatting */
+    .notes tr td {
+        padding: 0.1ex 0.25ex 1ex 0.25ex;
+        vertical-align: text-top;
+    }
+    .notes tr td:first-child {
+        width: 33%;
+        text-align: right;
+    }
+    /*
+        For some unknown reason, the font size on moble devices is much smaller, but only on the first column on the
+        notes tables. Work around using a media query for a coarse pointer (usually denotes a phone or tablet).
+    */
+    @media only screen and (pointer: coarse) {
+        .notes tr td:first-child {
+            font-size: 150%;
+        }
+    }
+
+    /* error bar formatting */
+    #errorBar {
+	    text-align: center;
+    }
+    #error {
+        background-color: #B00000;
+	    font-weight: bold;
+	    text-align: left;
+	    color: #FFFFFF;
+        margin: 1ex;
+        padding: 1ex;
+        border-radius: 1ex;
+        display: inline-block;
+    }
+    .errorLine {
+	    font-weight: bold;
+	    color: #FFFFFF;
+    }
+
+
+    /* Buttons */
+    .button {
+        margin: 1ex 1ex 1ex 1ex;
+        cursor: pointer;
+	}
+	.utilGroup {
+	    text-align: center;
+	}
+    .util, .utilHidden {
+        margin: 1ex 0ex 1ex 0ex;
+    }
+    .util {
+        display: inline;
+    }
+    .utilHidden {
+        display: none;
+    }
+    .button, #platformDiv, #meteredDiv, #darkModeDiv, #hidpiDiv, #meterDiv, #tempoDiv, #measuresPerLineDiv, #leadInBeatsDiv, #secondsPerLineDiv, .start, .urlButton {
+        background-color: #808080;
+        border: none;
+        color: #FFFFFF;
+        padding: 1ex;
+        text-align: center;
+        text-decoration: none;
+        font-size: 100%;
+        border-radius: 1ex;
+        display: block-inline;
+    }
+    .songContainer {
+        text-align: center;
+    }
+    .songDiv {
+        display: inline-block;
+        text-align: left;
+    }
+    #songTitleDiv, #authorDiv, #songCodeDiv {
+        background-color: #404080;
+        border: none;
+        color: #FFFFFF;
+        padding: 1ex;
+        text-align: left;
+        text-decoration: none;
+        font-size: 100%;
+        border-radius: 1ex;
+        display: block;
+    }
+    .start {
+        background-color: #60A060;
+    }
+    .stop {
+        background-color: #A06060;
+    }
+    .urlButton, {
+        background-color: #406080;
+    }
+
+    .density, .cumulative, .query {
+        background-color: #404040;
+        color: #D0D0D0;
+    }
+    .densitySelected, .cumulativeSelected, .querySelected {
+        background-color: #80A0D0;
+        color: #FFFFFF;
+    }
+
+    /* Fields */
+    .inputName, .inputTime, .inputRequired, .inputCount, .inputRate, .inputRange, .inputStopAfter, .inputResult, .inputPercentile {
+        background-color: #101010;
+        border: none;
+        color: #B0B0B0;
+        font-size: 75%;
+        padding: 1ex;
+        border-radius: 1ex;
+    }
+    .inputBailEarly, #copyUrlAutoStart {
+        background-color: #101010;
+        border: none;
+        color: #B0B0B0;
+    }
+    #samplesSelect, .rivenTypeSelect {
+        background-color: #101010;
+        border: none;
+        color: #B0B0B0;
+        font-size: 100%;
+        padding: 1ex;
+        border-radius: 1ex;
+    }
+
+    /* graying everthing out when disabled */
+    .rivenTypeSelect:disabled {
+        background-color: #202020;
+    }
+    .button:disabled {
+        background-color: #404040;
+        color: #B0B0B0;
+        cursor: not-allowed;
+    }
+    .inputName:disabled, .inputTime:disabled, .inputRequired:disabled, .inputCount:disabled, .inputRate:disabled, .inputRange:disabled, .inputStopAfter:disabled, .inputResult:disabled, .inputPercentile:disabled {
+        background-color: #202020;
+        color: #B0B0B0;
+        cursor: not-allowed;
+    }
+    .inputStopAfter:disabled {
+        background-color: #404040;
+    }
+    .inputBailEarly:disabled, #copyUrlAutoStart:disabled {
+        background-color: #202020;
+        color: #B0B0B0;
+        cursor: not-allowed;
+    }
+    #samplesSelect:disabled {
+        background-color: #202020;
+        color: #B0B0B0;
+        cursor: not-allowed;
+    }
+
+
+    #tabArea {
+        background-color: #FFFFFF;
+        border: none;
+        color: #000000;
+        font-size: 75%;
+        padding: 1ex;
+        border-radius: 1ex;
+        text-align: center;
+    }
+
+
+
+    /* tooltips, adapted from https://www.w3schools.com/css/css_tooltip.asp */
+
+    .tooltip {
+        position: relative;
+        display: inline-block;
+    }
+    .tooltip:hover .tooltiptext, .tooltip:hover .tooltiptextbottom  {
+        visibility: visible;
+        opacity: 1;
+    }
+    /* fix the link colors inside tooltips */
+    .tooltip a {
+        color: #0000FF
+    }
+    .tooltip a:visited {
+        color: #B000FF
+    }
+
+    /* right side tooltip */
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 50ex;
+        background-color: #C0C0C0;
+        color: #4040A0;
+        text-align: center;
+        border-radius: 0.5ex;
+        padding: 1ex;
+        position: absolute;
+        z-index: 1;
+        top: 1ex;
+        left: calc(100% + 2ex);
+
+        opacity: 0;
+        transition: opacity 500ms;
+        transition-delay: 1s;
+    }
+    .tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 2.25ex;
+        right: 100%;
+        margin-top: -1ex;
+        border-width: 1ex;
+        border-style: solid;
+        border-color: transparent #C0C0C0 transparent transparent;
+    }
+
+    /* bottom side tooltip */
+    .tooltip .tooltiptextbottom {
+        visibility: hidden;
+        width: 30ex;
+        background-color: #C0C0C0;
+        color: #4040A0;
+        text-align: center;
+        border-radius: 0.5ex;
+        padding: 1ex;
+        position: absolute;
+        z-index: 1;
+        top: 120%;
+        left: calc(50% - 15ex);
+        margin-left: -2ex;
+        pointer-events: none;
+
+        opacity: 0;
+        transition: opacity 500ms;
+        transition-delay: 1s;
+    }
+    .tooltip .tooltiptextbottom::after {
+        content: "";
+        position: absolute;
+        bottom: 100%;  /* At the top of the tooltip */
+        left: 50%;
+        margin-left: -1ex;
+        border-width: 1ex;
+        border-style: solid;
+        border-color: transparent transparent #C0C0C0 transparent;
+    }
+
+    /* popup, adapted from https://www.w3schools.com/howto/howto_js_popup.asp */
+    .popup {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+    .popup .popuptext {
+        visibility: hidden;
+        width: 50ex;
+        background-color: #C0C0C0;
+        color: #000080;
+        text-align: center;
+        border-radius: 0.5ex;
+        padding: 1ex;
+        position: absolute;
+        z-index: 1;
+        top: 120%;
+        left: -40ex;
+        margin-left: -2ex;
+    }
+    .popup .popuptext::after {
+        content: "";
+        position: absolute;
+        bottom: 100%;  /* At the top of the tooltip */
+        right: 2ex;
+        margin-left: -1ex;
+        border-width: 1ex;
+        border-style: solid;
+        border-color: transparent transparent #C0C0C0 transparent;
+    }
+    .popup .show {
+        visibility: visible;
+        animation: fadeIn 1s
+    }
+    #urlHolder {
+        color: #000000;
+    }
+</style>
+<body onload="initModel()">
+<script type="text/javascript" language="javascript">
+
+    // todo: make this configurable?
+    var stringThreeOnTop = true;
+
+    var darkMode = false;
+    var hiDPI = false;
+
+    function isHiDPI() {
+        return hiDPI;
+    }
+
+    // thanks to https://www.reddit.com/r/Warframe/comments/cxbxoc/shawzin_song_recording_syntax/
+
+    var scale_map = new Map();
+    scale_map.set('1', 'Pentatonic Minor');
+    scale_map.set('2', 'Pentatonic Major');
+    scale_map.set('3', 'Chromatic');
+    scale_map.set('4', 'Hexatonic');
+    scale_map.set('5', 'Major');
+    scale_map.set('6', 'Minor');
+    scale_map.set('7', 'Hirajoshi');
+    scale_map.set('8', 'Phrygian');
+    scale_map.set('9', 'Yo');
+
+    var base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    function base64ToInt(char) {
+        // todo: better?
+        var index = base64Chars.indexOf(char);
+        if (index < 0) {
+            throw "Invalid character: \"" + char + "\"";
+        }
+        return index;
+    }
+
+    class Note {
+        constructor() {
+            this.string = "";
+            this.fret = "";
+            this.time = 0;
+        }
+
+        fromString(code) {
+            // sanity check
+            if (code.length != 3) {
+                throw "Invalid note code: \"" + code + "\""
+            }
+            // split three base64 chars and convert to ints
+            var noteInt = base64ToInt(code.charAt(0));
+            var measure = base64ToInt(code.charAt(1));
+            var tick = base64ToInt(code.charAt(2));
+
+            // bits 1-3 of the note int are the strings
+            this.string = "";
+            if (noteInt & 0x01) this.string = this.string + "1";
+            if (noteInt & 0x02) this.string = this.string + "2";
+            if (noteInt & 0x04) this.string = this.string + "3";
+            // bits 4-6 of the note int are the frets
+            this.fret = "";
+            if (noteInt & 0x08) this.fret = this.fret + "1";
+            if (noteInt & 0x10) this.fret = this.fret + "2";
+            if (noteInt & 0x20) this.fret = this.fret + "3";
+
+            // combine measure int and tick into into a single time, number of ticks from the beginning of the song
+            this.time = (measure * 64) + tick
+
+            return this;
+        }
+
+        desc() {
+            return "[" + this.time + " - " + this.string + ":" + this.fret + "]";
+        }
+
+        offsetTime(offset) {
+            // construct a new note with the same note value but an offset time
+            var n = new Note();
+            n.string = this.string;
+            n.fret = this.fret;
+            n.time = this.time + offset;
+
+            return n;
+        }
+    }
+
+    function noteTimeComparator(note1, note2) {
+        return note1.time - note2.time;
+    }
+
+    class Song {
+        constructor() {
+            this.scale = "";
+            this.notes = Array();
+        }
+
+        setScale(scale) {
+            this.scale = scale;
+            return this;
+        }
+
+        fromString(code) {
+            // should be 3n+1 chars long
+            if (code.length % 3 != 1) {
+                throw "Code is an invalid length"
+            }
+
+            // pull out the scale code and map it
+            var scaleCode = code.charAt(0);
+            this.scale = scale_map.get(scaleCode);
+            if (!this.scale) {
+                throw "Invalid scale code: \"" + scaleCode + "\""
+            }
+
+            // note array
+            this.notes = Array();
+            // pull out each three-char substring and parse it into a note string, fret, and time
+            for (var i = 1; i < code.length; i+= 3) {
+                this.notes.push(new Note().fromString(code.substring(i, i+3)));
+            }
+
+            // sort by time, should be unnecessary but there's nothing preventing anyone from
+            // building note lists out of order.
+            this.notes.sort(noteTimeComparator);
+
+            return this;
+        }
+
+        isEmpty() {
+            return this.notes.length == 0;
+        }
+
+        applyLeadIn(leadInLength, measureLength) {
+            var leadInOffset = measureLength - leadInLength;
+            if (leadInOffset < 0) {
+                throw "Lead in size cannot be more than one measure"
+            }
+
+            // iterate over all the notes
+            for (var i = 0; i < this.notes.length; i++) {
+                this.notes[i] = this.notes[i].offsetTime(leadInOffset);
+            }
+
+            return this;
+        }
+
+        split(intervalLength) {
+            // This is the meat of the whole thing
+
+            // we will build an array of sub-songs
+            var array = new Array();
+
+            // initial state, start before beginning
+            var intervalStart = -intervalLength;
+            // the start of the next interval
+            var intervalEnd = 0;
+            // loop over notes
+            // current sub-song, there isn't one yet
+            var subSong;
+
+            // iterate over all the notes
+            for (var i = 0; i < this.notes.length; i++) {
+                var note = this.notes[i];
+                // if the note's time is after our current interval, add sub-songs and increment the interval
+                // until we reach the right range
+                while (note.time >= intervalEnd) {
+                    // create a new subSong and put it at the end of the array
+                    // might as well copy the scale, too
+                    subSong = new Song().setScale(this.scale);
+                    array.push(subSong);
+                    // increment the interval
+                    intervalStart = intervalEnd;
+                    intervalEnd = intervalStart + intervalLength;
+                }
+
+                // offset the note so that the interval start is time zero
+                subSong.notes.push(note.offsetTime(-intervalStart));
+            }
+
+            return array;
+        }
+    }
+
+    //==============================================================
+    // UI Builders
+    //==============================================================
+
+    function buildTabWithoutMeasures(song, platform, title, author, secondsPerLine) {
+        var secondsPerLineFloat = parseFloat(secondsPerLine);
+
+        if (secondsPerLineFloat <= 0) {
+            throw "Invalid seconds per line: \"" + secondsPerLine + "\"";
+        }
+
+        // 16 ticks in a second
+        // round to the nearest tick
+        buildTab(song, platform, title, author, Math.round(secondsPerLineFloat * 16));
+    }
+
+    function buildTabWithMeasures(song, platform, title, author, meter, tempo, measuresPerLine, leadInBeats) {
+        // parse the tempo
+        var tempoInt = parseInt(tempo);
+        if (tempoInt <= 0) {
+            throw "Invalid tempo: \"" + secondsPerLine + "\"";
+        }
+
+        // 16 ticks in a second => ticks/minute * minutes/beat = ticks per beat
+        var ticksPerBeat = (16*60) / tempoInt;
+
+        // parse the meter
+        var regex = /(\d+)\/(\d+)/g;
+        var match = regex.exec(meter);
+        if (!match) {
+            throw "Invalid time signature: \"" + meter + "\"";
+        }
+
+        // pull out the numerator and denominator of the meter
+        // numerator = beats per measure
+        var beatsPerMeasure = parseInt(match[1]);
+        // denominator = the beat value
+        var beatValue = parseInt(match[2]);
+
+        if (beatsPerMeasure <= 0 || beatValue <= 0) {
+            throw "Invalid time signature: \"" + meter + "\"";
+        }
+
+        // beatValue doesn't actually matter for our purposes.  We don't have to worry about drawing eighth notes
+        // versus quarter notes.  We have a tempo in beats per second, and all we care about is how many beats are
+        // in each measure
+
+        // measure length is a multiple of the beat length
+        var ticksPerMeasure = ticksPerBeat * beatsPerMeasure;
+
+        var measuresPerLineInt = parseInt(measuresPerLine);
+        if (measuresPerLineInt <= 0) {
+            throw "Invalid measures per line: \"" + measuresPerLineInt + "\"";
+        }
+        // line length is a multiple of the measure length
+        var ticksPerLine = ticksPerMeasure * measuresPerLineInt;
+
+        var leadInBeatsFloat = parseFloat(leadInBeats);
+        if (leadInBeatsFloat < 0) {
+            throw "Invalid lead in beats: \"" + leadInBeats + "\"";
+        }
+
+        var leadInTicks = Math.round(leadInBeatsFloat * ticksPerBeat);
+
+        // glad that's all out of the way
+        buildTab(song, platform, title, author, ticksPerLine, ticksPerMeasure, ticksPerBeat, leadInTicks);
+
+    }
+
+    function parseInt(s) {
+        var i = Number.parseInt(s);
+        if (Number.isNaN(i)) {
+            throw "Invalid number: \"" + s + "\"";
+        }
+        return i;
+    }
+
+	function parseFloat(s) {
+	    // read a decimal from a string
+	    var i = Number.parseFloat(s);
+	    if (Number.isNaN(i) || i < 0) {
+            throw "Invalid number: \"" + s + "\"";
+	    }
+	    return i;
+	}
+
+    // convenience function to draw an image centered on a point
+    function drawCenteredImage(context, img, x, y) {
+        context.drawImage(img, x - (img.width / 2), y - (img.height / 2));
+    }
+
+    function buildTab(song, platform, title, author, lineBreaks, measureBreaks=0, beatBreaks=0, leadIn=0) {
+        // get the tab container
+        var tabArea = document.getElementById("tabArea")
+
+        // offset the song if lead-in was specified
+        // The Shawzin recorder always starts on the first note, even if that note isn't at the beginning of a measure
+        if (leadIn > 0) {
+            song = song.applyLeadIn(leadIn, measureBreaks);
+        }
+        // split the song up into sub-songs by lines
+        var lineSongs = song.split(lineBreaks);
+
+        var scale = isHiDPI() ? 2 : 1;
+
+        // set a few constants for the image
+        // todo: pull these from CSS like I do with rngsim
+        if (darkMode) {
+            var sideMargin = 15 * scale;
+            var topBottomMargin = 15 * scale;
+            var headerHeight = 80 * scale;
+            var footerHeight = 50 * scale;
+            var pageWidth = 1000 * scale;
+            var lineHeight = 60 * scale;
+            var fontSize = 18 * scale;
+            var lineSeparation = 60 * scale;
+
+        } else {
+            var sideMargin = 15 * scale;
+            var topBottomMargin = 15 * scale;
+            var headerHeight = 80 * scale;
+            var footerHeight = 50 * scale;
+            var pageWidth = 1000 * scale;
+            var lineHeight = 60 * scale;
+            var fontSize = 15 * scale;
+            var lineSeparation = 60 * scale;
+        }
+
+        if (platform == "none") {
+            var fretSep = 0;
+            // enable old rendering method
+            var string1 = null;
+            var string2 = null;
+            var string3 = null;
+            var fret0 = null;
+            var fret1 = null;
+            var fret2 = null;
+            var fret3 = null;
+
+        } else if (darkMode) {
+            var fretSep = 14 * scale;
+            // image objects
+            var string1 = document.getElementById("plat_s_1_d")
+            var string2 = document.getElementById("plat_s_2_d")
+            var string3 = document.getElementById("plat_s_3_d")
+            var fret0 = document.getElementById("all_f_0_d")
+            var fret1 = document.getElementById("plat_f_1_d")
+            var fret2 = document.getElementById("plat_f_2_d")
+            var fret3 = document.getElementById("plat_f_3_d")
+
+        } else {
+            var fretSep = 12 * scale;
+            // image objects
+            var string1 = document.getElementById("plat_s_1_l")
+            var string2 = document.getElementById("plat_s_2_l")
+            var string3 = document.getElementById("plat_s_3_l")
+            var fret0 = document.getElementById("all_f_0_l")
+            var fret1 = document.getElementById("plat_f_1_l")
+            var fret2 = document.getElementById("plat_f_2_l")
+            var fret3 = document.getElementById("plat_f_3_l")
+        }
+
+        // these are calculated
+        var pageHeight = headerHeight + footerHeight + (lineHeight * lineSongs.length) + (lineSeparation * (lineSongs.length - 1)) + (topBottomMargin * 2);
+        var lineWidth = pageWidth - (sideMargin * 2);
+
+        // create a canvas element under the tab container with the dimensions we calculated
+        // if you configure something stupid like a thousand-line tab you're probably going to crash something.
+        tabArea.innerHTML = `<canvas class="tabCanvas" height=` + pageHeight + ` width=` + pageWidth + ` onclick="convertToPng(this);"/>`;
+
+        // find the canvas element we just added
+        var canvas = getFirstChild(tabArea, "tabCanvas");
+
+        if (scale != 1) {
+            canvas.style.height = (pageHeight/scale) + 'px';
+            canvas.style.width = (pageWidth/scale) + 'px';
+        }
+
+        // save the title to the canvas element for convertToPng() to pick up for a file name
+	    canvas.saveName = title;
+
+        // get the graphics context, this is what we'll do all our work in
+        var context = canvas.getContext("2d");
+
+        // fill the whole canvas with a background color, otherwise it will be transparent
+        context.fillStyle = darkMode ? "#000000" : "#FFFFFF";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        // set the line color and width
+        context.strokeStyle = darkMode ? "#FFFFFF" : "#000000";
+        context.lineWidth = darkMode ? fontSize / 6 : fontSize / 10;
+
+        // set up the title text
+        context.font = (fontSize * 2) + "px Arial";
+        context.textAlign = "center";
+        context.fillStyle = darkMode ? "#FFFFFF" : "#000000";
+        // title
+        context.fillText(title, pageWidth/2, topBottomMargin + headerHeight * 0.3);
+
+        // set up the scale line
+        context.font = (fontSize * 1) + "px Arial";
+        context.textAlign = "left";
+        // scale line
+        context.fillText("Scale: " + song.scale, sideMargin*5, topBottomMargin + headerHeight * 0.6);
+
+        // set up the author line
+        context.font = (fontSize * 1) + "px Arial";
+        context.textAlign = "right";
+        // authorline
+        context.fillText(author, pageWidth - sideMargin*5, topBottomMargin + headerHeight * 0.6);
+
+        // set up the footer line
+        context.font = (fontSize * 1) + "px Arial";
+        context.textAlign = "right";
+        // footer line
+        context.fillText("https://buff0000n.github.io/shawzintab/", pageWidth - sideMargin, pageHeight - (topBottomMargin + footerHeight * 0.25));
+
+        // set up the rest of the text
+        context.font = fontSize + "px Arial";
+        context.textAlign = "center";
+
+        // iterate over the sub-songs
+        for (var line = 0; line < lineSongs.length; line++) {
+            // calculate the box coordinates containing the line
+            var x1 = sideMargin;
+            var x2 = x1 + lineWidth;
+            var y1 = topBottomMargin + headerHeight + ((lineHeight + lineSeparation) * line);
+            var y2 = y1 + lineHeight;
+
+            // draw the song line
+            buildSongLine(context, x1, y1, x2, y2, fontSize, lineSongs[line], lineBreaks, measureBreaks, beatBreaks, 
+                          string1, string2, string3, fret0, fret1, fret2, fret3, fretSep)
+        }
+    }
+
+    function buildSongLine(context, x1, y1, x2, y3, fontSize, lineSong, lineBreaks, measureBreaks, beatBreaks, 
+                           string1, string2, string3, fret0, fret1, fret2, fret3, fretSep) {
+        // margin around the start/end bars and measure bars if present
+        var barMargin = fontSize;
+
+        // calculate the middle string y-position
+        var y2 = (y1 + y3) / 2;
+
+        // we'll use this line width for pretty much everything
+        context.lineWidth = darkMode ? fontSize / 6 : fontSize / 10;
+
+        // width for the string labels on the left
+        var labelWidth = fontSize * 1.5
+
+        // easier this way
+        x1 += labelWidth;
+
+        // draw 3 string lines
+        drawLine(context, x1, y1, x2, y1);
+        drawLine(context, x1, y2, x2, y2);
+        drawLine(context, x1, y3, x2, y3);
+
+        // string line labels
+        if (!fret0) {
+            placeText(context, fontSize, stringThreeOnTop ? "3" : "1", x1-(fontSize*1), y1);
+            placeText(context, fontSize, "2", x1-(fontSize*1), y2);
+            placeText(context, fontSize, stringThreeOnTop ? "1" : "3", x1-(fontSize*1), y3);
+
+        } else {
+            drawCenteredImage(context, stringThreeOnTop ? string3 : string1, x1-(fontSize*1), y1);
+            drawCenteredImage(context, string2, x1-(fontSize*1), y2);
+            drawCenteredImage(context, stringThreeOnTop ? string1 : string3, x1-(fontSize*1), y3);
+        }
+        
+        if (measureBreaks != 0) {
+            // draw measure lines
+            for (var i = 0; i <= lineBreaks; i+= measureBreaks) {
+                var x3 = x1 + (((x2 - x1) * i) / lineBreaks);
+                drawLine(context, x3, y1, x3, y3);
+            }
+
+            // split up the line by measures
+            var measureSongs = lineSong.split(measureBreaks);
+
+            function drawMeasure(clear) {
+                for (var m = 0; m < measureSongs.length; m++) {
+                    var measureSong = measureSongs[m];
+                    var x1b = x1 + (((x2 - x1) * (m * measureBreaks)) / lineBreaks);
+                    var x2b = x1 + (((x2 - x1) * ((m + 1) * measureBreaks)) / lineBreaks);
+                    drawNotes(context, x1b+barMargin, y1, x2b-barMargin, y3, y2, fontSize, measureSong, measureBreaks, 
+                              clear, fret0, fret1, fret2, fret3, fretSep);
+                }
+            }
+
+            if (!fret0) {
+                drawMeasure(true);
+                drawMeasure(false);
+
+            } else {           
+                drawMeasure(true);
+            }
+
+        } else {
+            // just put lines at the beginning and ending of each line
+            drawLine(context, x1, y1, x1, y3);
+            drawLine(context, x2, y1, x2, y3);
+            
+            if (!fret0) {
+                // clear space for all the notes first
+                drawNotes(context, x1+barMargin, y1, x2-barMargin, y3, y2, fontSize, lineSong, lineBreaks, 
+                        true, fret0, fret1, fret2, fret3, fretSep);
+    
+                // now draw the notes
+                drawNotes(context, x1+barMargin, y1, x2-barMargin, y3, y2, fontSize, lineSong, lineBreaks, 
+                        false, fret0, fret1, fret2, fret3, fretSep);
+
+            } else {
+                drawNotes(context, x1+barMargin, y1, x2-barMargin, y3, y2, fontSize, lineSong, lineBreaks, 
+                          true, fret0, fret1, fret2, fret3, fretSep);
+            }
+        }
+
+        // beat lines are too much clutter
+        /*
+        if (beatBreaks != 0) {
+            context.lineWidth = fontSize / 20;
+            var y1b = ((y1*2) + (y3*1)) / 3;
+            var y3b = ((y3*2) + (y1*1)) / 3;
+            for (var i = 0; i <= lineBreaks; i+= beatBreaks) {
+                var x3 = x1 + (((x2 - x1) * i) / lineBreaks);
+                drawLine(context, x3, y1b, x3, y3b);
+            }
+        }
+        */
+
+    }
+
+    function drawNotes(context, x1, y1, x2, y3, y2, fontSize, drawSong, intervalLength, clear, fret0, fret1, fret2, fret3, fretSep) {
+        if (!fret0) {
+            context.textAlign = "center";
+    
+            // fill color depends on whether we're clearing or drawing
+            if (clear) {
+                context.fillStyle = darkMode ? "#000000" : "#FFFFFF";
+            } else {
+                context.fillStyle = darkMode ? "#FFFFFF" : "#000000";
+            }
+        }
+        // iterate over the notes
+        for (var n = 0; n < drawSong.notes.length; n++) {
+            var note = drawSong.notes[n];
+            // use the notes time to calculate its x position in the line.  The time is assumed to
+            // start at zero at the beginning of the line
+            // substract 1 from interval length to let barMargin take care of separating lines/measures
+            var x3 = x1 + (((x2 - x1) * note.time) / (intervalLength - 1));
+            // iterate over the note's strings
+            // do multi-string notes actually happen?
+            for (var j = 0; j < note.string.length; j++) {
+                var string = note.string.charAt(j);
+                // pick the y position for the correct string
+                var ty;
+                switch (string) {
+                    case "1": ty = stringThreeOnTop ? y3 : y1; break;
+                    case "2": ty = y2; break;
+                    case "3": ty = stringThreeOnTop ? y1 : y3; break;
+                }
+
+                if (!fret0) {
+                    // if there's no frets then use "0"
+                    var fret = (note.fret != "" ? note.fret : "0");
+    
+                    // clear space or draw the note
+                    placeText(context, fontSize, fret, x3, ty, clear);
+                } else {
+                    // draw the three frets, either open or closed
+                    drawCenteredImage(context, note.fret.includes("1") ? fret1 : fret0, x3, ty + fretSep);
+                    drawCenteredImage(context, note.fret.includes("2") ? fret2 : fret0, x3, ty);
+                    drawCenteredImage(context, note.fret.includes("3") ? fret3 : fret0, x3, ty - fretSep);
+                }
+            }
+        }
+    }
+
+    function placeText(context, fontSize, text, x3, ty, clear=false) {
+        // kludge to make it appear in the middle of the string line
+        // todo: how many browsers support context.measureText()?
+        ty += (fontSize*0.35);
+        var w = text.length * (fontSize * 0.8);
+        var h = fontSize;
+
+        if (clear) {
+            // clear a rectangle around the text
+            context.fillRect(x3-(w/2), ty-h, w, h*1.3);
+        } else {
+            // draw the text
+            context.fillText(text, x3, ty);
+            // if it's a multi-fret chord then underline it
+            if (text.length > 1) {
+                context.lineWidth = darkMode ? fontSize / 6 : fontSize / 10;
+                drawLine(context, x3-(w/2), ty+(h*0.3), x3+(w/2), ty+(h*0.3))
+            }
+        }
+    }
+
+    function drawLine(context, x1, y1, x2, y2) {
+        // why is this so annoying
+        context.beginPath();
+        context.moveTo(x1, y1);
+        context.lineTo(x2, y2);
+        context.stroke();
+    }
+
+    function convertToPng(canvas) {
+        // quick and easy replace a canvas element with an equivalent image element for easy download
+
+        // builds a huuuuge URL with the base-64 encoded PNG data embedded inside it
+        var src = canvas.toDataURL();
+        // get the song name that was saved to the canvas element
+        var name = canvas.saveName;
+        // use a default if no name was specified
+        if (!name || name == "") {
+            name = "song";
+        }
+        var fileName = name + ".png";
+
+        if (canvas.style.height) {
+            var imgStyle = `style = "height: ` + canvas.style.height + `; width: ` + canvas.style.width + `"`;
+        } else {
+            var imgStyle = ``;
+        }
+
+        // replace the canvas with an image
+        // Ugh, the only way to give it a file name is to wrap it in a link element, and duplicate the entire src contents.
+        canvas.parentElement.innerHTML = `
+            <a download="${fileName}" href="${src}">
+                <image src="${src}" ` + imgStyle + `></image>
+            </a>
+        `;
+    }
+
+
+    //==============================================================
+    // Utility DOM functions
+    // probably doing some of these the hard way but nothing else
+    // was reliable enough
+    // Most UI elements are identified by class instead of ID
+    // because they're added dynamically and there can be more than
+    // one of them in the DOM
+    //==============================================================
+
+    function getParent(node, parentClass) {
+        // walk up the DOM until we find a parent with the given class name or run out of parents
+        while (node != null && parentClass != (node.className)) {
+            node = node.parentNode;
+        }
+        return node;
+    }
+
+    function getFirstChild(node, childClass) {
+        // perform a depth first search from the first child to the last,
+        // until we find an element with the given class name
+        var children = node.children;
+        for (var i = 0; i < children.length; i++) {
+            var child = node.children[i];
+            if (child.className == childClass) {
+                return child;
+            }
+            // recursive call
+            var child2 = getFirstChild(child, childClass);
+            if (child2 !== null) {
+                return child2;
+            }
+        }
+        return null;
+    }
+
+    function getLastChild(node, childClass) {
+        // perform a depth first search going from the last child to the first,
+        // until we find an element with the given class name
+        var children = node.children;
+        // go over the children in reverse order
+        for (var i = children.length - 1; i >= 0; i--) {
+            var child = node.children[i];
+            if (child.className == childClass) {
+                return child;
+            }
+            // recursive call
+            var child2 = getLastChild(child, childClass);
+            if (child2 !== null) {
+                return child2;
+            }
+        }
+        return null;
+    }
+
+    function getAllChildren(node, childClass) {
+        // find all the children with the given class name
+        return getAllChildren0(node, childClass, Array());
+    }
+
+    function getAllChildren0(node, childClass, list) {
+        var children = node.children;
+        for (var i = 0; i < children.length; i++) {
+            var child = node.children[i];
+            if (child.className == childClass) {
+                list.push(child);
+            }
+            getAllChildren0(child, childClass, list);
+        }
+        return list;
+    }
+
+    function deleteNode(node) {
+        // delete an element from its parent
+        node.parentNode.removeChild(node);
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+        // cookies are weird
+        document.cookie = cname + "=" + cvalue;
+    }
+
+    function getCookie(cname) {
+        // getting cookie are even weirder
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    //==============================================================
+    // misc UI
+    //==============================================================
+
+    function showErrors(errors) {
+        // find the error bar
+        var errorBarElement = document.getElementById("errorBar");
+        // build and error div with a line for each error in the list
+        var html = `<div id="error">`;
+        for (var error in errors) {
+            html += `<div class="errorLine">${errors[error]}</div>`;
+        }
+        html += `</div>`;
+        // show
+        errorBarElement.innerHTML = html;
+    }
+
+    function clearErrors() {
+        // find the error bar and clear it out
+        var errorBarElement = document.getElementById("errorBar");
+        errorBarElement.innerHTML = "";
+    }
+
+    function windowOnError(msg, url, lineNo, columnNo, error) {
+        showErrors([msg.replace("Uncaught ", "")]);
+        return false;
+    }
+
+    //==============================================================
+    // Model-View control
+    //==============================================================
+
+    var showHelpUrlString = "&h=yes";
+
+    function initModel() {
+        // javascript is working
+        clearErrors();
+
+        var url = window.location.href;
+
+        window.onerror = windowOnError;
+
+        if (getQueryParam(url, "h")) {
+            about();
+        }
+
+        // stuff that gets init'd from cookies
+        initPlatformImages();
+        initDarkMode()
+        initHiDPI()
+
+        // init the model
+        reinitModel(url);
+    }
+
+    function reinitModel(url) {
+        // on page load, see if there's a "song=..." query string
+        var songString = getQueryParam(url, "song", false);
+        if (songString) {
+            // if there is, then initialize our song
+            setSong(urlDecodeString(songString, false));
+        }
+
+        var title = getQueryParam(url, "title");
+        if (title) {
+            document.getElementById("songTitle").value = urlDecodeString(title);
+        }
+
+        var author = getQueryParam(url, "author");
+        if (author) {
+            document.getElementById("author").value = urlDecodeString(author);
+        }
+
+        var metered = getQueryParam(url, "metered");
+        if (metered) {
+            if (metered == "y") {
+                document.getElementById("metered").checked = true;
+                document.getElementById("meter").value = getQueryParam(url, "meter");
+                document.getElementById("tempo").value = getQueryParam(url, "tempo");
+                document.getElementById("measuresPerLine").value = getQueryParam(url, "measuresPerLine");
+                document.getElementById("leadInBeats").value = getQueryParam(url, "leadInBeats");
+
+            } else {
+                document.getElementById("metered").checked = false;
+                document.getElementById("secondsPerLine").value = getQueryParam(url, "secondsPerLine");
+            }
+        } else {
+            document.getElementById("metered").checked = false;
+            document.getElementById("secondsPerLine").value = "4";
+        }
+        meteredChanged(document.getElementById("metered"))
+
+        if (songString) {
+            // start the display automatically
+            startRun();
+        }
+    }
+
+    function setSongString(songString) {
+        if (songString !== null && songString.length > 0) {
+            // parse a model from the string
+            var song = new Song().fromString(song);
+            // build the UI
+            setSong(song);
+            // clear any error
+            clearErrors();
+        }
+    }
+
+    function copyModelUrl() {
+        // build a model from the UI
+        var songString = getSong()
+
+        var title = document.getElementById("songTitle").value;
+
+        var author = document.getElementById("author").value;
+
+        var query = "?title=" + urlEncodeString(title) + "&author=" + urlEncodeString(author);
+
+        if (document.getElementById("metered").checked) {
+            query += "&metered=y"
+                + ("&meter=" + document.getElementById("meter").value || "4/4")
+                + ("&tempo=" + document.getElementById("tempo").value || "120")
+                + ("&measuresPerLine=" + document.getElementById("measuresPerLine").value || "4")
+                + ("&leadInBeats=" + document.getElementById("leadInBeats").value || "0");
+        } else {
+            query += "&metered=n"
+                + ("&secondsPerLine=" + document.getElementById("secondsPerLine").value || "4");
+        }
+
+        query += "&song=" + urlEncodeString(songString, false)
+
+        // build a full URL using the current URL
+        var url = buildQueryUrl(query);
+
+        // find the pop-up URL text field and set its contents
+        var textField = document.getElementById("urlHolder");
+        textField.value = url;
+        // show the popup
+        var popup = document.getElementById("popupBox");
+        popup.classList.toggle("show");
+        // focus and select the contents of the text field
+        textField.focus();
+        textField.select();
+    }
+
+	function urlEncodeString(string, plusIsSpace=true) {
+	    // urlencode some things
+	    string = encodeURIComponent(string);
+
+	    if (plusIsSpace) {
+            // replace whitespace with '+'
+            string = string.replace(/\s/g, "+");
+        }
+        return string;
+	}
+
+	function urlDecodeString(string, plusIsSpace=true) {
+	    if (plusIsSpace) {
+            // un-replace '+' with a space
+            string = string.replace(/\+/g, " ");
+        }
+
+	    // urldecode some things
+	    string = decodeURIComponent(string);
+
+	    // no funny business
+	    string = string.replace(/[<>\"]/g, "");
+	    return string;
+	}
+
+    function hideUrlPopup() {
+        // hide the popup when the text field loses focus
+        var popup = document.getElementById("popupBox");
+        popup.classList.toggle("show");
+        // todo: the onBlur() event fails to get called sometimes in Chrome
+    }
+
+    function buildQueryUrl(query) {
+        // get the current URL and strip out any query string
+        var url = window.location.href;
+        url = url.replace(/\?.*/, "");
+        // append our parameters
+        url += query;
+
+        return url;
+    }
+
+    function meteredChanged(checkbox) {
+        var metered = checkbox.checked;
+        if (metered) {
+            document.getElementById("meterDiv").style.display = "inline-block";
+            document.getElementById("tempoDiv").style.display = "inline-block";
+            document.getElementById("measuresPerLineDiv").style.display = "inline-block";
+            document.getElementById("leadInBeatsDiv").style.display = "inline-block";
+            document.getElementById("secondsPerLineDiv").style.display = "none";
+
+        } else {
+            document.getElementById("meterDiv").style.display = "none";
+            document.getElementById("tempoDiv").style.display = "none";
+            document.getElementById("measuresPerLineDiv").style.display = "none";
+            document.getElementById("leadInBeatsDiv").style.display = "none";
+            document.getElementById("secondsPerLineDiv").style.display = "inline-block";
+        }
+
+        valueChanged(checkbox);
+    }
+
+    function initDarkMode() {
+        // check cookie for a preferenc
+        if ("true" == getCookie("dark")) {
+            var checkbox = document.getElementById("darkMode")
+            checkbox.checked = true;
+            darkModeChanged(checkbox);
+        }
+    }
+
+    function darkModeChanged(checkbox) {
+        darkMode = checkbox.checked;
+        valueChanged(checkbox);
+        document.getElementById("tabArea").style.backgroundColor = darkMode ? "#000000" : "#FFFFFF";
+        setCookie("dark", darkMode ? "true" : "false");
+    }
+
+    function initHiDPI() {
+        // check cookie for a preferenc
+        if ("true" == getCookie("hidpi")) {
+            var checkbox = document.getElementById("hiDPI")
+            checkbox.checked = true;
+            hiDPIChanged(checkbox);
+        }
+    }
+
+    function hiDPIChanged(checkbox) {
+        hiDPI = checkbox.checked;
+        platformChanged();
+        setCookie("hidpi", hiDPI ? "true" : "false");
+    }
+
+    // loading images is async, keep track of how many are still loading so we can do something when it hits zero
+    var imagesStillLoading = 0;
+
+    // platform constants
+    var platformList = ["ps4", "xb1", "nsw", "pc", "none"];
+
+    var platformImgList = [
+        "_f_1_d",
+        "_f_2_d",
+        "_f_3_d",
+        "_s_1_d",
+        "_s_2_d",
+        "_s_3_d",
+        "_f_1_l",
+        "_f_2_l",
+        "_f_3_l",
+        "_s_1_l",
+        "_s_2_l",
+        "_s_3_l"
+    ];
+
+    function createImageLoader(id, src) {
+        // create an <img> element with the right ID, src, and onload function
+        var img = document.createElement("img");
+        img.id = id;
+        img.src = (isHiDPI() ? "img2x/" : "img/") + src + ".png";
+        img.onload = platformImageLoaded;
+        return img;
+    }
+
+    function initPlatformImages() {
+        // get the platform preference from cookies
+        platName = getCookie("platform")
+        // if it's empty or otherwise not valid then default to PS4
+        if (!platformList.includes(platName)) {
+            platName = "ps4";
+        }
+        // set the UI
+        platformElement = document.getElementById("platform").value = platName;
+
+        platformChanged();
+    }
+
+    function platformChanged(platform) {
+        platformElement = document.getElementById("platform")
+        // get the platform name
+        platName = platformElement.value;
+
+        // hidden image container
+        var imageLoaderContainer = document.getElementById("imageLoaderContainer");
+        // clear everything out
+        imageLoaderContainer.innerHTML = ``;
+
+        if  (platName == "none") {
+            valueChanged();
+
+        } else {
+            // shrug, disable the platform dropdown while we're loading
+            platformElement.disabled = true;
+
+            // init the loading image count before we add the elements
+            // add two for the platform-neutral dot images, loaded once on start-up
+            imagesStillLoading = platformImgList.length + 2;
+
+            // add the platform-neutral dots
+            imageLoaderContainer.append(createImageLoader("all_f_0_l", "all_f_0_l"));
+            imageLoaderContainer.append(createImageLoader("all_f_0_d", "all_f_0_d"));
+            // load the platform-specific images
+            for (var i = 0; i < platformImgList.length; i++) {
+                var suffix = platformImgList[i];
+                // hack so I don't have to worry about intializing the image loaders in multiple different ways
+                var prefix = platName == "none" ? "ps4" : platName;
+                imageLoaderContainer.append(createImageLoader("plat" + suffix, prefix + suffix));
+            }
+        }
+    }
+
+    function platformImageLoaded() {
+        // callback, we've loaded an image
+        imagesStillLoading--;
+        // oh look we're done
+        if (imagesStillLoading <= 0) {
+            // get the dropdown, enable it, and save the preference
+            platformElement = document.getElementById("platform")
+            platformElement.disabled = false;
+            setCookie("platform", platform.value);
+            // reset the count
+            platformChangeCount = 0;
+            // redraw the tablature
+            valueChanged();
+        }
+    }
+
+    function isHiDPIEnabled() {
+        return true;
+    }
+
+    function valueChanged(input) {
+        startRun();
+    }
+
+    function setSong(songString) {
+        document.getElementById('songCode').value = songString;
+    }
+
+    function getSong() {
+        // build a model from the current state of the UI
+
+        return document.getElementById('songCode').value.replace(/\s/g, "");
+    }
+
+    function getQueryParam(url, name, plusIsSpace=true) {
+        // from https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+        // weird that there's no built in function for this
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+        var results = regex.exec(url);
+        if (!results) {
+            return null;
+        }
+        if (!results[2]) {
+            return '';
+        }
+
+        var res = results[2];
+
+        if (plusIsSpace) {
+            res = res.replace(/\+/g, ' ')
+        }
+
+        return decodeURIComponent(res);
+    }
+
+    //==============================================================
+    // Runner
+    //==============================================================
+
+    // run state
+    var running = false;
+    var stopped = true;
+
+    // this is the number of runs after which we will stop
+    // this is set on start, and can be incremented if start is used again after auto-stop occurs
+    var stopNum = 0;
+
+    // This is how long we will run the simulation before updating the UI
+    var chunkMs = 100;
+
+    function startRun() {
+        // disable/enable everything accordingly
+        document.getElementById('generateButton').disabled = true;
+
+        // update state
+        stopped = false;
+
+        try {
+            // parse the UI into a model
+            var songString = getSong();
+
+            if (songString) {
+                var song = new Song().fromString(songString);
+
+                if (document.getElementById("metered").checked) {
+                    buildTabWithMeasures(song,
+                        document.getElementById("platform").value,
+                        document.getElementById("songTitle").value,
+                        document.getElementById("author").value,
+                        document.getElementById("meter").value || "4/4",
+                        document.getElementById("tempo").value,
+                        document.getElementById("measuresPerLine").value || "4",
+                        document.getElementById("leadInBeats").value || "0");
+                } else {
+                    buildTabWithoutMeasures(song,
+                        document.getElementById("platform").value,
+                        document.getElementById("songTitle").value,
+                        document.getElementById("author").value,
+                        document.getElementById("secondsPerLine").value || "4");
+                }
+            }
+
+            clearErrors();
+
+        } finally {
+            stopRun()
+        }
+    }
+
+    function stopRun() {
+        // disable/enable everything accordingly
+        document.getElementById('generateButton').disabled = false;
+        // document.getElementById('stopButton').disabled = true;
+
+        // update state
+        stopped = true;
+        // the running simulation will check the stopped flag eventually and stop itself
+    }
+
+
+    function about() {
+        var container = document.getElementById("lotsOfWordsContainer")
+
+        if (container.style.display === "none") {
+            container.style.display = "block";
+
+            // perform some history shenanigans to make sure that if you display Help, click a link, and then go back,
+            // then Help is still displayed and you don't lose your place.
+            var href = window.location.href;
+
+            if (href.indexOf(showHelpUrlString) < 0) {
+                if (href.indexOf("?") < 0) {
+                    href += "?";
+                }
+                href += showHelpUrlString;
+                history.replaceState( {} , document.title, href );
+            }
+
+        } else {
+            container.style.display = "none";
+            var href = window.location.href;
+            var index = href.indexOf(showHelpUrlString)
+            if (index >= 0) {
+                href = href.substring(0, index) + href.substring(index + showHelpUrlString.length);
+                history.replaceState( {} , document.title, href );
+            }
+        }
+    }
+
+
+
+
+</script>
+
+<div id="imageLoaderContainer" style="display: none">
+    <!-- For some reason Canvas requires actual HTML elements to load the images, they will go in here -->
+</div>
+
+<div class="titleBar">
+    <div class="mainTitle">Shawzin Tab Generator</div>
+</div>
+
+<div id="errorBar">
+    <div id="error">
+        <div class="errorLine">Javascript not enabled.</div>
+    </div>
+</div>
+
+<div class="songContainer">
+    <div class="songDiv">
+        <div class="util" id="songTitleDiv">
+            <div class="tooltip">
+                <span class="label">Song Title:</span>
+                <input id="songTitle" class="songTitle" type="text" size="50" onchange="valueChanged(this);"/>
+                <span class="tooltiptextbottom">Give your song a name</span>
+            </div>
+        </div>
+        <div class="util" id="authorDiv">
+            <div class="tooltip">
+                <span class="label">Author:</span>
+                <input id="author" class="author" type="text" size="50" onchange="valueChanged(this);"/>
+                <span class="tooltiptextbottom">Who is the author?  Be honest :)</span>
+            </div>
+        </div>
+        <div class="util" id="songCodeDiv">
+            <div class="tooltip">
+                <div class="label">Song Code:</div>
+                <textarea id="songCode" rows="5" cols="64" onchange="valueChanged(this);"></textarea>
+                <span class="tooltiptextbottom">Paste the song code in here</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="businessDiv">
+    <div class="utilGroup">
+        <div class="util" id="platformDiv">
+            <div class="tooltip">
+                <span class="label">Platform:</span>
+                <select id="platform" class="platform" onchange="platformChanged(this);">
+                    <option value="ps4" selected>PS4</option>
+                    <option value="xb1">XB1</option>
+                    <option value="nsw">NSW</option>
+                    <option value="pc">PC</option>
+                    <option value="none">None</option>
+                </select>
+                <span class="tooltiptextbottom">Select which platform's controls to display.  Choose <strong>None</strong> to use the old numeric display.</span>
+            </div>
+        </div>
+
+        <div class="util" id="meteredDiv">
+            <div class="tooltip">
+                <input id="metered" class="button" type="checkbox" onchange="meteredChanged(this);"/>
+                <span class="label">Metered</span>
+                <span class="tooltiptextbottom">Enable if the Shzawzin song follows a specific meter.</span>
+            </div>
+        </div>
+
+        <div class="util" id="secondsPerLineDiv">
+            <div class="tooltip">
+                <span class="label">Seconds per line:</span>
+                <input id="secondsPerLine" class="secondsPerLine" type="number" step="0.01" value="4" min="1" placeholder="4" onchange="valueChanged(this);"/>
+                <span class="tooltiptextbottom">How many seconds on each line</span>
+            </div>
+        </div>
+
+        <div class="util" id="meterDiv">
+            <div class="tooltip">
+                <span class="label">Time Signature:</span>
+                <input id="meter" class="meter" type="text" value="4/4" placeholder="4/4" onchange="valueChanged(this);"/>
+                <!--
+                <select id="meter" class="meter">
+                    <option value="4/4">4/4</option>
+                    <option value="3/4">3/4</option>
+                    <option value="2/4">2/4</option>
+                    <option value="5/4">5/4</option>
+                </select>
+                -->
+                <span class="tooltiptextbottom">The meter of the song</span>
+            </div>
+        </div>
+        <div class="util" id="tempoDiv">
+            <div class="tooltip">
+                <span class="label">Tempo:</span>
+                <select id="tempo" class="tempo" onchange="valueChanged(this);">
+                    <option value="120" selected>120 bps</option>
+                    <option value="160">160 bps</option>
+                    <option value="240">240 bps</option>
+                    <option value="192">192 bps</option>
+                    <option value="96">96 bps</option>
+                    <option value="80">80 bps</option>
+                    <option value="60">60 bps</option>
+                </select>
+                <span class="tooltiptextbottom">The Tempo of the song</span>
+            </div>
+        </div>
+        <div class="util" id="measuresPerLineDiv">
+            <div class="tooltip">
+                <span class="label">Measures per line:</span>
+                <input id="measuresPerLine" class="measuresPerLine" type="number" value="4" size="3" min="1" placeholder="4" onchange="valueChanged(this);"/>
+                <span class="tooltiptextbottom">How many measures per line</span>
+            </div>
+        </div>
+        <div class="util" id="leadInBeatsDiv">
+            <div class="tooltip">
+                <span class="label">Lead in beats:</span>
+                <input id="leadInBeats" class="leadInBeats" type="number" value="0" step="0.125" size="5" min="0" placeholder="0" onchange="valueChanged(this);"/>
+                <span class="tooltiptextbottom">Use this to align the song on a measure boundary if the first note is not at the beginning of a measure</span>
+            </div>
+        </div>
+
+        <div class="util" id="darkModeDiv">
+            <div class="tooltip">
+                <input id="darkMode" class="button" type="checkbox" onchange="darkModeChanged(this);"/>
+                <span class="label">Dark</span>
+                <span class="tooltiptextbottom">Enable for a dark-colored image intead of a light one.</span>
+            </div>
+        </div>
+        <div class="util" id="hiDPIDiv">
+            <div class="tooltip">
+                <input id="hiDPI" class="button" type="checkbox" onchange="hiDPIChanged(this);"/>
+                <span class="label">High DPI</span>
+                <span class="tooltiptextbottom">Enable for a higher-resolution tab image.</span>
+            </div>
+        </div>
+
+        <div id="generateDiv" class="util">
+            <span class="tooltip">
+                <input id="generateButton" class="button generate" type="submit" value="Generate Tab" onClick="startRun()"/>
+                <span class="tooltiptextbottom">Generate tablature</span>
+            </span>
+        </div>
+        <div class="util">
+            <div class="popup">
+                <input id="copyUrlButton" class="button urlButton popup" type="submit" value="Generate Link"
+                       onClick="copyModelUrl()"/>
+                <div class="popuptext" id="popupBox">
+                    <input id="urlHolder" type="text" size="60" onblur="hideUrlPopup()"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="tabArea">
+
+</div>
+
+<div class="titleBar">
+    <div class="utilGroup">
+        <div class="util">
+            <span class="tooltip">
+                <input id="about" class="button about" type="submit" value="Help" onClick="about()"/>
+                <span class="tooltiptext">Click here for lots of words</span>
+            </span>
+        </div>
+    </div>
+    <div id="lotsOfWordsContainer" style="display: none;">
+        <div class="lotsOfWords">
+            <h1>What is this?</h1>
+            <p>
+                This is a utility for taking an existing Shawzin song code and creating a "Guitar Tablature"-like
+                image of it.
+            </p>
+            <p>
+                There are three lines numbered 1-3, one for each string.  On each line are numbers representing
+                when each string is played, and the frets that must be down when the string is pressed.  Chords
+                (multiple frets) are grouped with an underline to differentiate them from single fret string plays.
+            </p>
+            <h1>Why is this?</h1>
+            <p>
+                My motivation for this is console players, who have no way to import song codes that I'm aware of.
+                PC players have a huge advantage in terms of both being able to create Shawzin songs and the ability
+                to share them.  I can't do anything about the first one, but I can do this little bit to make sharing
+                with console players easier.
+            </p>
+
+            <h1>Table of Contents</h1>
+            <ul id="TOC">
+                <li><a href="#tocGettingStarted">Getting Started</a>
+                    <ul>
+                        <li><a href="#tocEnterSongInfo">Enter your song's information</a>
+                        <li><a href="#tocPickYourPlatform">Pick your platform</a>
+                    </ul>
+                </li>
+                <li><a href="#tocSharing">Sharing</a></li>
+                <li><a href="#tocSharing">Sharing</a></li>
+                <li><a href="#tocSaving">Saving</a></li>
+                <li><a href="#tocOutputTweaking">Output Tweaking</a>
+                    <ul>
+                        <li><a href="#tocDarkMode">Dark Mode</a></li>
+                        <li><a href="#tocNonMetered">Non-metered</a></li>
+                        <li><a href="#tocMeteredOutput">Metered</a></li>
+                    </ul>
+                </li>
+                <li><a href="#tocToDo">To Do</a></li>
+                <li><a href="#tocKnownIssues">Known Issues</a></li>
+            </ul>
+
+            <h1 id="tocGettingStarted">Getting Started</h1>
+
+            <h2 id="tocEnterSongInfo">Enter your song's information:</h2>
+            <ul>
+                <li><strong>Title</strong>: Enter a title for your song here.  This will appear at the top of the generated image.</li>
+            </ul>
+            <ul>
+                <li><strong>Author</strong>: Enter the creator of your song here.  This will appear at the top right of the generated image.</li>
+            </ul>
+            <p>
+                Paste the actual song code in the large text area.
+                It's okay if there are line breaks or other spaces, these will be removed before processing
+            </p>
+
+            <h2 id="tocPickYourPlatform">Pick your platform</h2>
+            <p>
+                The string and fret buttons are displayed based on your platform.  Use the <strong>Platform</strong>
+                drop-down to select from <strong>PS4</strong>, <strong>XB1</strong>, <strong>NSW</strong>, or
+                <strong>PC</strong>.  Select <strong>None</strong> to revert back to the old, numeric tab view.
+            </p>
+            <p>
+                If you have cookies enabled then your platform selection will be remembered for any other Shawzin Tab
+                links you follow.
+            </p>
+
+            <h2>Generate Shawzin Tablature</h2>
+            <p>
+                The tablature should be generated automatically as you make changes, but you can still click
+                <strong class="generateDiv">Generate Tab</strong> to generate the tablature image manually.
+            </p>
+
+            <h1 id="tocSharing">Sharing</h1>
+            <p>
+                Click <strong class="copyUrlButton">Generate Link</strong> to build a link containing your song and display data.
+                You can embed this link in your own pages or posts to allow someone to open up your song with everything
+                pre-configured.
+            </p>
+
+            <h1 id="tocSaving">Saving</h1>
+            <p>
+                Clicking once on the tablature image itself will convert it to a .PNG image.  Clicking it again will
+                allow you to save it and view it offline.
+            </p>
+
+            <h1 id="tocOutputTweaking">Output Tweaking</h1>
+
+            <h2 id="tocDarkMode">Dark mode</h2>
+            <p>
+                By default the Shawzin Tab is generated a while background.  You can enable <strong>Dark Mode</strong>
+                to generate it on a black background instead.
+            </p>
+            <p>
+                If you have cookies enabled then your Dark Mode selection will be remembered for any other Shawzin Tab
+                links you follow.
+            </p>
+
+            <h2 id="tocNonMetered">Non-metered</h2>
+            <p>
+                Your options are limited for general, non-metered Shawzin songs.  You can basically control how
+                much time each line covers.
+            </p>
+            <ul>
+                <li><strong>Seconds per line</strong>: How many seconds of the song to put on each line of tablature.
+                    Increasing this will compress the notes, decreasing it will spread them out.  Decimal values are allowed.
+                </li>
+            </ul>
+
+            <h2 id="tocMetered">Metered</h2>
+            <p>
+                The metering options are geared toward someone familiar with the song and how music timing works.
+            </p>
+            <ul>
+                <li><strong>Time Signature</strong>: The time signature specifies how many beats are in each measure.
+                    Its format is "<strong>number of beats</strong>/<strong>beat size</strong>"
+                    <ul>
+                        <li><strong>number of beats</strong>: Along with <strong>Tempo</strong>, this determines how
+                            much time is in each measure</li>
+                        <li><strong>beat size</strong>: For our purposes, this doesn't actually matter.  There is
+                            no difference between note divisions in tablature notation.  You should leave it at "<i>N</i>/4" or "<i>N</i>/8" for
+                            consistency.</li>
+                    </ul>
+                </li>
+                <li><strong>Tempo</strong>: This controls how many beats are in one minute.  Together with the <strong>number
+                    of beats</strong> in your time signature, this determines how long each measure is.
+                    <p>
+                        If you recorded your song using the in-game metronome then you probably want to use <strong>120</strong>
+                        as your Tempo.  However, if it's a really slow song then you might want to try <strong>60</strong>.
+                    </p>
+                    <p>
+                        There are a limited number of tempos available because of how the Shawzin recorder timing actually
+                        works.  Each second is divided into 16 time increments, and each recorded note is assigned to the
+                        nearest increment.  In this system there are only a few tempos that will give you a whole number
+                        of increments per beat, which is further limited by possibly needing a whole number of increments
+                        for eighth notes, sixteenth notes, and/or triplet notes.
+                    </p>
+                </li>
+                <li><strong>Measures per line</strong>: This simply controls how many measures are put on each line of
+                    tablature.  Each measure is the same width.
+                </li>
+                <li><strong>Lead in beats</strong>: The Shawzin recorder starts on the first note, and all timing is
+                    based off that.  If the song's first note is not at the beginning of a measure then that will throw
+                    all the timing off.
+                    <p>
+                        To fix this, you can tell the generator how many beats of your song are considered "lead in"
+                        before getting to the first full measure.  This can be a fractional number of beats.
+                    </p>
+                    <p>
+                        For example, if your Time Signature is 4/4 and you have an eight-note lead in, then then
+                        <strong>Lead in beats</strong> should be set to <strong>0.5</strong>.
+                    </p>
+                </li>
+            </ul>
+
+            <h1 id="tocToDo">To Do</h1>
+            <ul>
+                <li>
+                    Compress consecutive blank lines/measures
+                </li>
+                <li>
+                    Enforce the 1000-note, 256-second limit
+                </li>
+                <li>
+                    Examples
+                </li>
+            </ul>
+
+
+            <h1 id="tocKnownIssues">Known Issues</h1>
+            <ul>
+                <li>None, this app is 100% perfect forever for all time :)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footerContainer">
+        <div>
+            <img src="https://i.imgur.com/b5pNXKU.png" srcset="https://i.imgur.com/z6U8Oxs.png 2x"/>
+        </div>
+        <div>
+            Buff00n
+        </div>
+        <div>
+            <a href="https://github.com/buff0000n/shawzintab">Source</a>
+            <a href="https://github.com/buff0000n/shawzintab/issues/1">Feedback</a>
+        </div>
+        <div>
+            v2.0.2: 2020-07-07
+        </div>
+        <div>Thanks:
+            <div><a href="https://forums.warframe.com/profile/3060756-ps4poison___insect/">(PS4)Poison___Insect</a></div>
+            <div><a href="https://www.reddit.com/r/Warframe/comments/cxbxoc/shawzin_song_recording_syntax/">u/Empyrrhus</a></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
